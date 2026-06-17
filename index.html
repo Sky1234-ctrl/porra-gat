@@ -239,10 +239,40 @@ label.form-label{font-size:.78em;color:var(--text2);font-weight:600;display:bloc
 </div>
 </div>
 
-<div style="text-align:center;padding:30px;color:var(--text2);font-size:.78em">FIFA World Cup 2026 Pool Tracker · Hecho con ❤️</div>
+<div style="text-align:center;padding:30px;color:var(--text2);font-size:.78em">FIFA World Cup 2026 Pool Tracker · Hecho con ❤️ · Firebase conectado</div>
 </div>
 
-<script>
+<script type="module">
+// =========================
+// 🔥 Firebase + Firestore
+// =========================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+  getDoc,
+  setDoc,
+  onSnapshot,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBgohMi-3GmD7lA0qAHRYiLbaLQbYNCCh8",
+  authDomain: "porra-gat.firebaseapp.com",
+  projectId: "porra-gat",
+  storageBucket: "porra-gat.firebasestorage.app",
+  messagingSenderId: "489187684365",
+  appId: "1:489187684365:web:158d7f2b4d0fb373d36544"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+const playersRef = collection(db, "players");
+const tournamentRef = doc(db, "state", "tournament");
+
 const F={"Spain":"🇪🇸","France":"🇫🇷","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Brazil":"🇧🇷","Argentina":"🇦🇷","Portugal":"🇵🇹","Germany":"🇩🇪","Netherlands":"🇳🇱","Norway":"🇳🇴","Belgium":"🇧🇪","Colombia":"🇨🇴","Japan":"🇯🇵","Morocco":"🇲🇦","USA":"🇺🇸","Uruguay":"🇺🇾","Switzerland":"🇨🇭","Mexico":"🇲🇽","Croatia":"🇭🇷","Turkey":"🇹🇷","Ecuador":"🇪🇨","Senegal":"🇸🇳","Sweden":"🇸🇪","Canada":"🇨🇦","Austria":"🇦🇹","Paraguay":"🇵🇾","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Bosnia-Herzegovina":"🇧🇦","Ivory Coast":"🇨🇮","Egypt":"🇪🇬","Czechia":"🇨🇿","Ghana":"🇬🇭","Algeria":"🇩🇿","South Korea":"🇰🇷","Tunisia":"🇹🇳","Australia":"🇦🇺","Iran":"🇮🇷","DR Congo":"🇨🇩","South Africa":"🇿🇦","Saudi Arabia":"🇸🇦","Panama":"🇵🇦","Iraq":"🇮🇶","Uzbekistan":"🇺🇿","Qatar":"🇶🇦","Cape Verde":"🇨🇻","New Zealand":"🇳🇿","Jordan":"🇯🇴","Haiti":"🇭🇹","Curaçao":"🇨🇼"};
 const T1=["Spain","France","England","Brazil","Argentina","Portugal"];
 const T2=["Germany","Netherlands","Norway","Belgium","Colombia","Japan","Morocco","USA","Uruguay","Switzerland","Mexico","Croatia","Turkey","Ecuador"];
@@ -251,22 +281,74 @@ const ALL=[...T1,...T2,...T3];
 const GROUPS={A:["Mexico","South Africa","South Korea","Czechia"],B:["Canada","Bosnia-Herzegovina","Qatar","Switzerland"],C:["Brazil","Morocco","Scotland","Haiti"],D:["USA","Paraguay","Australia","Turkey"],E:["Germany","Ivory Coast","Ecuador","Curaçao"],F:["Netherlands","Japan","Sweden","Tunisia"],G:["Belgium","Egypt","Iran","New Zealand"],H:["Spain","Cape Verde","Saudi Arabia","Uruguay"],I:["France","Senegal","Norway","Iraq"],J:["Argentina","Algeria","Austria","Jordan"],K:["Portugal","Colombia","Uzbekistan","DR Congo"],L:["England","Croatia","Panama","Ghana"]};
 const ST={"Group Stage":0,"Round of 32":10,"Round of 16":15,"Quarter-Finals":20,"4th Place":25,"3rd Place":50,"Runner-up":75,"Winner":100};
 const SK=Object.keys(ST);
-let tp={},ts={},players=[];
+let tp = {};
+let ts = {};
+let players = [];
+window.tp = tp;
+window.ts = ts;
+window.players = players;
 
-function init(){
-  const s=localStorage.getItem('wc26p');
-  if(s){const d=JSON.parse(s);tp=d.tp||{};ts=d.ts||{};players=d.players||[]}
-  ALL.forEach(t=>{if(!tp[t])tp[t]="Group Stage";if(!ts[t])ts[t]={gs:0,gc:0,yc:0}});
-  buildSelects();buildAdmin();buildTierPreviews();render();
+async function init(){
+  // Valores por defecto del torneo
+  ALL.forEach(t=>{
+    if(!tp[t]) tp[t] = "Group Stage";
+    if(!ts[t]) ts[t] = {gs:0,gc:0,yc:0};
+  });
+
+  buildSelects();
+  buildTierPreviews();
+
+  // Cargar estado inicial de Firestore si existe
+  try{
+    const snap = await getDoc(tournamentRef);
+    if(snap.exists()){
+      const d = snap.data();
+      tp = {...tp, ...(d.tp || {})};
+      ts = {...ts, ...(d.ts || {})};
+      window.tp = tp;
+      window.ts = ts;
+    }
+  }catch(e){
+    console.error('Error cargando estado del torneo desde Firebase:', e);
+  }
+
+  buildAdmin();
+  render();
+
+  // Escuchar cambios del estado del torneo en tiempo real
+  onSnapshot(tournamentRef, (snap)=>{
+    if(!snap.exists()) return;
+    const d = snap.data();
+    tp = {...tp, ...(d.tp || {})};
+    ts = {...ts, ...(d.ts || {})};
+    window.tp = tp;
+    window.ts = ts;
+    buildAdmin();
+    render();
+  }, (e)=>console.error('Error escuchando estado del torneo:', e));
+
+  // Escuchar jugadores en tiempo real
+  onSnapshot(playersRef, (snapshot)=>{
+    players = snapshot.docs.map(d=>({id:d.id, ...d.data()}));
+    window.players = players;
+    render();
+  }, (e)=>console.error('Error escuchando jugadores:', e));
 }
-function save(){localStorage.setItem('wc26p',JSON.stringify({tp,ts,players}))}
+async function save(){
+  await setDoc(tournamentRef, {
+    tp,
+    ts,
+    updatedAt: serverTimestamp()
+  }, { merge:true });
+}
 
 function showTab(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  event.target.classList.add('active');
-  if(id==='leaderboard')render();
+  const clicked = window.event && window.event.target ? window.event.target : document.querySelector(`.tab[onclick*="${id}"]`);
+  if(clicked) clicked.classList.add('active');
+  if(id==='leaderboard') render();
 }
 
 function buildSelects(){
@@ -297,7 +379,16 @@ function buildAdmin(){
   });
   g.innerHTML=h;
 }
-function saveAdmin(){save();render();alert('✅ Progreso guardado correctamente')}
+async function saveAdmin(){
+  try{
+    await save();
+    render();
+    alert('✅ Progreso guardado en Firebase. Todos verán los mismos resultados.');
+  }catch(e){
+    console.error(e);
+    alert('❌ No se pudo guardar en Firebase. Revisa Firestore y las reglas.');
+  }
+}
 
 function buildTierPreviews(){
   document.getElementById('tierPreview1').innerHTML=T1.map(t=>`<span class="badge badge-t1">${F[t]} ${t}</span>`).join('');
@@ -305,7 +396,7 @@ function buildTierPreviews(){
   document.getElementById('tierPreview3').innerHTML=T3.map(t=>`<span class="badge badge-t3">${F[t]} ${t}</span>`).join('');
 }
 
-function addPlayer(){
+async function addPlayer(){
   const n=document.getElementById('pName').value.trim();
   const t1=document.getElementById('pT1').value;
   const t2a=document.getElementById('pT2a').value,t2b=document.getElementById('pT2b').value;
@@ -316,12 +407,40 @@ function addPlayer(){
   if(t2a===t2b){err.textContent='⚠️ No repitas equipo en Tier 2';return}
   if(t3a===t3b){err.textContent='⚠️ No repitas equipo en Tier 3';return}
   err.textContent='';
-  players.push({name:n,t1,t2a,t2b,t3a,t3b});
-  save();render();
-  document.getElementById('pName').value='';
-  ['pT1','pT2a','pT2b','pT3a','pT3b'].forEach(id=>document.getElementById(id).selectedIndex=0);
+
+  try{
+    await addDoc(playersRef, {
+      name:n,
+      t1,
+      t2a,
+      t2b,
+      t3a,
+      t3b,
+      createdAt: serverTimestamp()
+    });
+    document.getElementById('pName').value='';
+    ['pT1','pT2a','pT2b','pT3a','pT3b'].forEach(id=>document.getElementById(id).selectedIndex=0);
+  }catch(e){
+    console.error(e);
+    err.textContent='❌ No se pudo guardar el jugador en Firebase. Revisa Firestore y las reglas.';
+  }
 }
-function removePlayer(i){if(confirm('¿Eliminar a '+players[i].name+'?')){players.splice(i,1);save();render()}}
+async function removePlayer(i){
+  const p = players[i];
+  if(!p) return;
+  if(!confirm('¿Eliminar a '+p.name+'?')) return;
+  try{
+    if(p.id){
+      await deleteDoc(doc(db, 'players', p.id));
+    }else{
+      players.splice(i,1);
+      render();
+    }
+  }catch(e){
+    console.error(e);
+    alert('❌ No se pudo eliminar el jugador en Firebase.');
+  }
+}
 
 function getBonus(){
   let mGS=-1,mGC=Infinity,mYC=-1,bGS=[],bGC=[],bYC=[];
@@ -399,6 +518,13 @@ function render(){
     }).join('');
   }
 }
+
+window.showTab = showTab;
+window.addPlayer = addPlayer;
+window.removePlayer = removePlayer;
+window.saveAdmin = saveAdmin;
+window.render = render;
+window.buildAdmin = buildAdmin;
 
 init();
 </script>
