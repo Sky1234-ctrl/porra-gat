@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FIFA World Cup 2026 Pool</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f5f5f7;--white:#fff;--card:#fff;--shadow:0 2px 16px rgba(0,0,0,.07);--shadow-hover:0 4px 24px rgba(0,0,0,.12);--border:#e8e8ed;--text:#1d1d1f;--text2:#6e6e73;--blue:#1a1a2e;--gold:#c9a84c;--gold-light:#f5ecd7;--red:#c0392b;--t1g1:#c9a84c;--t1g2:#e6c65a;--t2g1:#e67e22;--t2g2:#f39c12;--t3g1:#27ae60;--t3g2:#2ecc71;--accent:#2563eb;--accent2:#0ea5e9;--danger:#ef4444;--radius:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.app{max-width:1280px;margin:0 auto;padding:16px}
+
+/* HEADER */
+.header{text-align:center;padding:30px 20px 10px;position:relative}
+.header img{height:80px;margin-bottom:8px}
+.header h1{font-size:1.8em;font-weight:800;color:var(--blue);letter-spacing:-.5px}
+.header .sub{color:var(--text2);font-size:.9em;margin-top:2px}
+
+/* TABS */
+.tabs{display:flex;justify-content:center;gap:6px;margin:20px 0;flex-wrap:wrap}
+.tab{padding:10px 22px;border-radius:50px;border:none;background:var(--white);color:var(--text2);font-family:inherit;font-size:.88em;font-weight:600;cursor:pointer;transition:all .25s;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tab:hover{color:var(--text);box-shadow:var(--shadow)}
+.tab.active{background:var(--blue);color:#fff;box-shadow:0 2px 12px rgba(26,26,46,.25)}
+
+/* PANELS */
+.panel{display:none;animation:fadeIn .3s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:16px;transition:box-shadow .25s}
+.card:hover{box-shadow:var(--shadow-hover)}
+.card-title{font-size:1.05em;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+/* LEADERBOARD */
+.lb-table{width:100%;border-collapse:separate;border-spacing:0}
+.lb-table th{padding:10px 12px;font-size:.72em;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);font-weight:700;border-bottom:2px solid var(--border);text-align:left}
+.lb-table td{padding:12px;vertical-align:middle;border-bottom:1px solid #f0f0f0;font-size:.88em}
+.lb-table tr{transition:background .15s}
+.lb-table tbody tr:hover{background:#f8f8fa}
+.lb-top1{background:linear-gradient(90deg,#fffdf0,#fff)!important}
+.lb-top2{background:linear-gradient(90deg,#fafafa,#fff)!important}
+.lb-top3{background:linear-gradient(90deg,#fdf6ef,#fff)!important}
+.medal{font-size:1.3em;margin-right:4px}
+.rank-num{font-weight:800;font-size:1.1em;color:var(--blue)}
+.player-name{font-weight:700;font-size:.95em}
+.total-pts{font-weight:900;font-size:1.25em;color:var(--blue)}
+.bonus-pts{color:var(--accent);font-weight:700;font-size:.9em}
+
+/* TEAM BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:8px;font-size:.76em;font-weight:700;margin:2px;white-space:nowrap}
+.badge-t1{background:linear-gradient(135deg,#fdf6e3,#f5ecd7);color:#8b6914;border:1px solid #e6d5a0}
+.badge-t2{background:linear-gradient(135deg,#fff3e0,#ffe8cc);color:#c45e00;border:1px solid #f5cfa0}
+.badge-t3{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:#1b5e20;border:1px solid #a5d6a7}
+
+/* PTS BREAKDOWN */
+.pts-mini{font-size:.72em;color:var(--text2);display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.pts-chip{background:#f0f0f3;padding:2px 7px;border-radius:6px;font-weight:600}
+.pts-chip.bonus{background:#dbeafe;color:var(--accent)}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;align-items:end}
+label.form-label{font-size:.78em;color:var(--text2);font-weight:600;display:block;margin-bottom:4px}
+.form-select,.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:12px;background:#fff;font-family:inherit;font-size:.88em;color:var(--text);outline:none;transition:border .2s}
+.form-select:focus,.form-input:focus{border-color:var(--accent)}
+.btn{padding:10px 24px;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:.88em;cursor:pointer;transition:all .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:#2a2a4e}
+.btn-red{background:var(--danger);color:#fff;padding:6px 12px;font-size:.76em;border-radius:8px}
+.btn-green{background:var(--t3g1);color:#fff}
+.err-msg{color:var(--danger);font-size:.82em;margin-top:8px}
+
+/* ADMIN GROUPS */
+.groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.group-card{background:#fafafa;border-radius:14px;padding:16px;border:1px solid var(--border)}
+.group-card h3{font-size:.9em;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.team-row{display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap}
+.team-row:last-child{border-bottom:none}
+.team-flag{font-size:1.15em}
+.team-name{font-weight:600;font-size:.82em;min-width:110px;flex-shrink:0}
+.team-row select{padding:4px 8px;border:1px solid var(--border);border-radius:8px;font-size:.78em;background:#fff;font-family:inherit;max-width:120px}
+.team-row input[type=number]{width:48px;padding:4px 6px;border:1px solid var(--border);border-radius:8px;font-size:.78em;text-align:center;font-family:inherit}
+.stat-label{font-size:.65em;color:var(--text2);font-weight:600}
+
+/* RULES */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.rule-card{background:linear-gradient(135deg,#fafafa,#fff);border-radius:14px;padding:24px;border:1px solid var(--border);text-align:center}
+.rule-card .icon{font-size:2.2em;margin-bottom:10px}
+.rule-card h3{font-size:1em;font-weight:700;margin-bottom:12px;color:var(--blue)}
+.rule-card ul{list-style:none;text-align:left;font-size:.85em;line-height:2}
+.rule-card li{display:flex;justify-content:space-between;padding:0 8px;border-bottom:1px solid #f5f5f5}
+.rule-card li:last-child{border:none}
+.rule-card li span:last-child{font-weight:700;color:var(--blue)}
+.tier-preview{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:8px}
+
+/* PLAYER CARDS */
+.player-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.p-card{background:#fff;border-radius:14px;padding:18px;border:1px solid var(--border);transition:box-shadow .2s}
+.p-card:hover{box-shadow:var(--shadow)}
+.p-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.p-card-name{font-weight:800;font-size:1.05em}
+.p-card-teams{display:flex;flex-wrap:wrap;gap:4px}
+
+/* EMPTY */
+.empty{text-align:center;padding:50px 20px;color:var(--text2)}
+.empty .e-icon{font-size:3.5em;margin-bottom:12px}
+.empty p{font-size:.95em}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .header h1{font-size:1.3em}
+  .tab{padding:8px 14px;font-size:.82em}
+  .form-grid{grid-template-columns:1fr}
+  .groups-grid{grid-template-columns:1fr}
+  .lb-table{font-size:.82em}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<div class="header">
+<img src="https://digitalhub.fifa.com/transform/8fd2a881-2527-4cf0-8faf-2e5a1e1e53f4/FIFA-World-Cup-26-Horizontal" alt="FIFA World Cup 2026" onerror="this.style.display='none'">
+<h1>World Cup 2026 Pool ⚽</h1>
+<div class="sub">11 Jun – 19 Jul 2026 · USA · México · Canada · €10 entrada</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+<button class="tab active" onclick="showTab('leaderboard')">🏆 Clasificación</button>
+<button class="tab" onclick="showTab('players')">👥 Jugadores</button>
+<button class="tab" onclick="showTab('admin')">⚙️ Admin</button>
+<button class="tab" onclick="showTab('rules')">📜 Reglas</button>
+</div>
+
+<!-- LEADERBOARD PANEL -->
+<div class="panel active" id="panel-leaderboard">
+<div class="card">
+<div style="overflow-x:auto">
+<table class="lb-table" id="lbTable">
+<thead><tr><th style="width:50px">#</th><th>Jugador</th><th>Equipos</th><th>Detalle</th><th style="width:60px">Bonus</th><th style="width:70px">Total</th><th style="width:40px"></th></tr></thead>
+<tbody id="lbBody"></tbody>
+</table>
+</div>
+<div class="empty" id="emptyLB"><div class="e-icon">🏟️</div><p>Aún no hay jugadores.<br>Ve a <strong>👥 Jugadores</strong> para añadir el primero.</p></div>
+</div>
+</div>
+
+<!-- PLAYERS PANEL -->
+<div class="panel" id="panel-players">
+<div class="card">
+<div class="card-title">➕ Registrar Jugador</div>
+<div class="form-grid" id="playerForm">
+<div><label class="form-label">Nombre</label><input class="form-input" type="text" id="pName" placeholder="Ej: Pedro"></div>
+<div><label class="form-label"><span class="badge badge-t1" style="font-size:.7em">T1</span> Elige 1</label><select class="form-select" id="pT1"></select></div>
+<div><label class="form-label"><span class="badge badge-t2" style="font-size:.7em">T2</span> Equipo 1</label><select class="form-select" id="pT2a"></select></div>
+<div><label class="form-label"><span class="badge badge-t2" style="font-size:.7em">T2</span> Equipo 2</label><select class="form-select" id="pT2b"></select></div>
+<div><label class="form-label"><span class="badge badge-t3" style="font-size:.7em">T3</span> Equipo 1</label><select class="form-select" id="pT3a"></select></div>
+<div><label class="form-label"><span class="badge badge-t3" style="font-size:.7em">T3</span> Equipo 2</label><select class="form-select" id="pT3b"></select></div>
+<div style="display:flex;align-items:end"><button class="btn btn-blue" onclick="addPlayer()">Añadir ➕</button></div>
+</div>
+<div class="err-msg" id="regErr"></div>
+</div>
+<div class="card" style="margin-top:8px">
+<div class="card-title">👥 Jugadores Registrados</div>
+<div class="player-cards" id="playerCards"></div>
+<div class="empty" id="emptyPlayers"><div class="e-icon">👤</div><p>Ningún jugador registrado aún.</p></div>
+</div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="panel" id="panel-admin">
+<div class="card">
+<div class="card-title">⚙️ Progreso del Torneo</div>
+<p style="font-size:.82em;color:var(--text2);margin-bottom:14px">Actualiza la fase alcanzada y estadísticas de cada equipo. Pulsa <strong>Guardar</strong> al terminar.</p>
+<div class="groups-grid" id="groupsGrid"></div>
+<div style="margin-top:18px;text-align:center"><button class="btn btn-blue" onclick="saveAdmin()">💾 Guardar Todo</button></div>
+</div>
+</div>
+
+<!-- RULES PANEL -->
+<div class="panel" id="panel-rules">
+<div class="rules-grid">
+<div class="rule-card">
+<div class="icon">🏆</div>
+<h3>Puntos por Fase</h3>
+<ul>
+<li><span>🥇 Campeón</span><span>100 pts</span></li>
+<li><span>🥈 Subcampeón</span><span>75 pts</span></li>
+<li><span>🥉 3er Puesto</span><span>50 pts</span></li>
+<li><span>4º Puesto</span><span>25 pts</span></li>
+<li><span>Cuartos de Final</span><span>20 pts</span></li>
+<li><span>Octavos (R16)</span><span>15 pts</span></li>
+<li><span>16avos (R32)</span><span>10 pts</span></li>
+<li><span>Fase de Grupos</span><span>0 pts</span></li>
+</ul>
+</div>
+<div class="rule-card">
+<div class="icon">⭐</div>
+<h3>Bonus</h3>
+<ul>
+<li><span>⚽ Más Goles Marcados</span><span>+9 pts</span></li>
+<li><span>🛡️ Menos Goles Encajados</span><span>+8 pts</span></li>
+<li><span>🟨 Más Tarjetas Amarillas</span><span>+7 pts</span></li>
+</ul>
+<p style="font-size:.78em;color:var(--text2);margin-top:12px;text-align:center"><em>A revisar con Pedro y Ugur</em></p>
+</div>
+<div class="rule-card">
+<div class="icon">📋</div>
+<h3>Cómo Jugar</h3>
+<ul style="line-height:2.2">
+<li><span>Entrada</span><span>€10</span></li>
+<li><span>Equipos por jugador</span><span>5</span></li>
+</ul>
+<div style="margin-top:14px;text-align:left;font-size:.85em">
+<p><span class="badge badge-t1">TIER 1</span> Elige <strong>1</strong> favorito</p>
+<p style="margin-top:6px"><span class="badge badge-t2">TIER 2</span> Elige <strong>2</strong> contendientes</p>
+<p style="margin-top:6px"><span class="badge badge-t3">TIER 3</span> Elige <strong>2</strong> underdogs</p>
+</div>
+</div>
+<div class="rule-card">
+<div class="icon">🌍</div>
+<h3>Tier 1 — Favoritos</h3>
+<div class="tier-preview" id="tierPreview1"></div>
+</div>
+<div class="rule-card">
+<div class="icon">💪</div>
+<h3>Tier 2 — Contendientes</h3>
+<div class="tier-preview" id="tierPreview2"></div>
+</div>
+<div class="rule-card">
+<div class="icon">🎲</div>
+<h3>Tier 3 — Underdogs</h3>
+<div class="tier-preview" id="tierPreview3"></div>
+</div>
+</div>
+</div>
+
+<div style="text-align:center;padding:30px;color:var(--text2);font-size:.78em">FIFA World Cup 2026 Pool Tracker · Hecho con ❤️</div>
+</div>
+
+<script>
+const F={"Spain":"🇪🇸","France":"🇫🇷","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Brazil":"🇧🇷","Argentina":"🇦🇷","Portugal":"🇵🇹","Germany":"🇩🇪","Netherlands":"🇳🇱","Norway":"🇳🇴","Belgium":"🇧🇪","Colombia":"🇨🇴","Japan":"🇯🇵","Morocco":"🇲🇦","USA":"🇺🇸","Uruguay":"🇺🇾","Switzerland":"🇨🇭","Mexico":"🇲🇽","Croatia":"🇭🇷","Turkey":"🇹🇷","Ecuador":"🇪🇨","Senegal":"🇸🇳","Sweden":"🇸🇪","Canada":"🇨🇦","Austria":"🇦🇹","Paraguay":"🇵🇾","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Bosnia-Herzegovina":"🇧🇦","Ivory Coast":"🇨🇮","Egypt":"🇪🇬","Czechia":"🇨🇿","Ghana":"🇬🇭","Algeria":"🇩🇿","South Korea":"🇰🇷","Tunisia":"🇹🇳","Australia":"🇦🇺","Iran":"🇮🇷","DR Congo":"🇨🇩","South Africa":"🇿🇦","Saudi Arabia":"🇸🇦","Panama":"🇵🇦","Iraq":"🇮🇶","Uzbekistan":"🇺🇿","Qatar":"🇶🇦","Cape Verde":"🇨🇻","New Zealand":"🇳🇿","Jordan":"🇯🇴","Haiti":"🇭🇹","Curaçao":"🇨🇼"};
+const T1=["Spain","France","England","Brazil","Argentina","Portugal"];
+const T2=["Germany","Netherlands","Norway","Belgium","Colombia","Japan","Morocco","USA","Uruguay","Switzerland","Mexico","Croatia","Turkey","Ecuador"];
+const T3=["Senegal","Sweden","Canada","Austria","Paraguay","Scotland","Bosnia-Herzegovina","Ivory Coast","Egypt","Czechia","Ghana","Algeria","South Korea","Tunisia","Australia","Iran","DR Congo","South Africa","Saudi Arabia","Panama","Iraq","Uzbekistan","Qatar","Cape Verde","New Zealand","Jordan","Haiti","Curaçao"];
+const ALL=[...T1,...T2,...T3];
+const GROUPS={A:["Mexico","South Africa","South Korea","Czechia"],B:["Canada","Bosnia-Herzegovina","Qatar","Switzerland"],C:["Brazil","Morocco","Scotland","Haiti"],D:["USA","Paraguay","Australia","Turkey"],E:["Germany","Ivory Coast","Ecuador","Curaçao"],F:["Netherlands","Japan","Sweden","Tunisia"],G:["Belgium","Egypt","Iran","New Zealand"],H:["Spain","Cape Verde","Saudi Arabia","Uruguay"],I:["France","Senegal","Norway","Iraq"],J:["Argentina","Algeria","Austria","Jordan"],K:["Portugal","Colombia","Uzbekistan","DR Congo"],L:["England","Croatia","Panama","Ghana"]};
+const ST={"Group Stage":0,"Round of 32":10,"Round of 16":15,"Quarter-Finals":20,"4th Place":25,"3rd Place":50,"Runner-up":75,"Winner":100};
+const SK=Object.keys(ST);
+let tp={},ts={},players=[];
+
+function init(){
+  const s=localStorage.getItem('wc26p');
+  if(s){const d=JSON.parse(s);tp=d.tp||{};ts=d.ts||{};players=d.players||[]}
+  ALL.forEach(t=>{if(!tp[t])tp[t]="Group Stage";if(!ts[t])ts[t]={gs:0,gc:0,yc:0}});
+  buildSelects();buildAdmin();buildTierPreviews();render();
+}
+function save(){localStorage.setItem('wc26p',JSON.stringify({tp,ts,players}))}
+
+function showTab(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  event.target.classList.add('active');
+  if(id==='leaderboard')render();
+}
+
+function buildSelects(){
+  const mk=(arr,cls)=>'<option value="">-- Selecciona --</option>'+arr.map(t=>`<option value="${t}">${F[t]||'🏳️'} ${t}</option>`).join('');
+  document.getElementById('pT1').innerHTML=mk(T1);
+  ['pT2a','pT2b'].forEach(id=>document.getElementById(id).innerHTML=mk(T2));
+  ['pT3a','pT3b'].forEach(id=>document.getElementById(id).innerHTML=mk(T3));
+}
+
+function buildAdmin(){
+  const g=document.getElementById('groupsGrid');
+  let h='';
+  Object.entries(GROUPS).forEach(([gn,teams])=>{
+    h+=`<div class="group-card"><h3>🏟️ Grupo ${gn}</h3>`;
+    teams.forEach(t=>{
+      const st=ts[t]||{gs:0,gc:0,yc:0};
+      const opts=SK.map(s=>`<option value="${s}" ${tp[t]===s?'selected':''}>${s.replace('Quarter-Finals','QF').replace('Round of ','R').replace('Group Stage','GS')}</option>`).join('');
+      h+=`<div class="team-row">
+        <span class="team-flag">${F[t]||'🏳️'}</span>
+        <span class="team-name">${t}</span>
+        <select onchange="tp['${t}']=this.value">${opts}</select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="${st.gs}" onchange="ts['${t}'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="${st.gc}" onchange="ts['${t}'].gc=+this.value"></div>
+        <div><span class="stat-label">YC</span><input type="number" min="0" value="${st.yc}" onchange="ts['${t}'].yc=+this.value"></div>
+      </div>`;
+    });
+    h+='</div>';
+  });
+  g.innerHTML=h;
+}
+function saveAdmin(){save();render();alert('✅ Progreso guardado correctamente')}
+
+function buildTierPreviews(){
+  document.getElementById('tierPreview1').innerHTML=T1.map(t=>`<span class="badge badge-t1">${F[t]} ${t}</span>`).join('');
+  document.getElementById('tierPreview2').innerHTML=T2.map(t=>`<span class="badge badge-t2">${F[t]} ${t}</span>`).join('');
+  document.getElementById('tierPreview3').innerHTML=T3.map(t=>`<span class="badge badge-t3">${F[t]} ${t}</span>`).join('');
+}
+
+function addPlayer(){
+  const n=document.getElementById('pName').value.trim();
+  const t1=document.getElementById('pT1').value;
+  const t2a=document.getElementById('pT2a').value,t2b=document.getElementById('pT2b').value;
+  const t3a=document.getElementById('pT3a').value,t3b=document.getElementById('pT3b').value;
+  const err=document.getElementById('regErr');
+  if(!n){err.textContent='⚠️ Introduce un nombre';return}
+  if(!t1||!t2a||!t2b||!t3a||!t3b){err.textContent='⚠️ Selecciona todos los equipos';return}
+  if(t2a===t2b){err.textContent='⚠️ No repitas equipo en Tier 2';return}
+  if(t3a===t3b){err.textContent='⚠️ No repitas equipo en Tier 3';return}
+  err.textContent='';
+  players.push({name:n,t1,t2a,t2b,t3a,t3b});
+  save();render();
+  document.getElementById('pName').value='';
+  ['pT1','pT2a','pT2b','pT3a','pT3b'].forEach(id=>document.getElementById(id).selectedIndex=0);
+}
+function removePlayer(i){if(confirm('¿Eliminar a '+players[i].name+'?')){players.splice(i,1);save();render()}}
+
+function getBonus(){
+  let mGS=-1,mGC=Infinity,mYC=-1,bGS=[],bGC=[],bYC=[];
+  const active=ALL.filter(t=>tp[t]!=='Group Stage'||ts[t].gs>0||ts[t].gc>0||ts[t].yc>0);
+  if(!active.length)return{gs:[],gc:[],yc:[]};
+  active.forEach(t=>{
+    const s=ts[t];
+    if(s.gs>mGS){mGS=s.gs;bGS=[t]}else if(s.gs===mGS&&s.gs>0)bGS.push(t);
+    if(s.gc<mGC){mGC=s.gc;bGC=[t]}else if(s.gc===mGC)bGC.push(t);
+    if(s.yc>mYC){mYC=s.yc;bYC=[t]}else if(s.yc===mYC&&s.yc>0)bYC.push(t);
+  });
+  return{gs:mGS>0?bGS:[],gc:mGC<Infinity?bGC:[],yc:mYC>0?bYC:[]};
+}
+
+function calcP(p){
+  const teams=[p.t1,p.t2a,p.t2b,p.t3a,p.t3b];
+  const bon=getBonus();
+  let total=0,det=[];
+  teams.forEach(t=>{
+    let pts=ST[tp[t]]||0,bp=0,bl=[];
+    if(bon.gs.includes(t)){bp+=9;bl.push('+9⚽')}
+    if(bon.gc.includes(t)){bp+=8;bl.push('+8🛡️')}
+    if(bon.yc.includes(t)){bp+=7;bl.push('+7🟨')}
+    total+=pts+bp;
+    det.push({t,pts,bp,bl});
+  });
+  return{total,det};
+}
+
+function tierCls(t){return T1.includes(t)?'badge-t1':T2.includes(t)?'badge-t2':'badge-t3'}
+
+function render(){
+  // Leaderboard
+  const body=document.getElementById('lbBody');
+  const el=document.getElementById('emptyLB');
+  if(!players.length){body.innerHTML='';el.style.display='block'}
+  else{
+    el.style.display='none';
+    let rows=players.map((p,i)=>({...p,i,...calcP(p)}));
+    rows.sort((a,b)=>b.total-a.total);
+    body.innerHTML=rows.map((r,ri)=>{
+      const rk=ri+1;
+      const med=rk===1?'🥇':rk===2?'🥈':rk===3?'🥉':'';
+      const rc=rk===1?'lb-top1':rk===2?'lb-top2':rk===3?'lb-top3':'';
+      const badges=r.det.map(d=>`<span class="badge ${tierCls(d.t)}">${F[d.t]} ${d.t}</span>`).join('');
+      const detail=r.det.map(d=>{
+        let s=`<span class="pts-chip">${d.pts}</span>`;
+        d.bl.forEach(b=>s+=`<span class="pts-chip bonus">${b}</span>`);
+        return s;
+      }).join(' ');
+      const tb=r.det.reduce((a,d)=>a+d.bp,0);
+      return `<tr class="${rc}">
+        <td>${med?`<span class="medal">${med}</span>`:`<span class="rank-num">${rk}</span>`}</td>
+        <td class="player-name">${r.name}</td>
+        <td>${badges}</td>
+        <td><div class="pts-mini">${detail}</div></td>
+        <td class="bonus-pts">${tb>0?'+'+tb:'—'}</td>
+        <td class="total-pts">${r.total}</td>
+        <td><button class="btn-red" onclick="removePlayer(${r.i})">✕</button></td>
+      </tr>`;
+    }).join('');
+  }
+  // Player cards
+  const pc=document.getElementById('playerCards');
+  const ep=document.getElementById('emptyPlayers');
+  if(!players.length){pc.innerHTML='';ep.style.display='block'}
+  else{
+    ep.style.display='none';
+    pc.innerHTML=players.map((p,i)=>{
+      const teams=[p.t1,p.t2a,p.t2b,p.t3a,p.t3b];
+      return `<div class="p-card">
+        <div class="p-card-header"><span class="p-card-name">${p.name}</span><button class="btn-red" onclick="removePlayer(${i})">✕</button></div>
+        <div class="p-card-teams">${teams.map(t=>`<span class="badge ${tierCls(t)}">${F[t]} ${t}</span>`).join('')}</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+init();
+</script>
+</body>
+</html>
