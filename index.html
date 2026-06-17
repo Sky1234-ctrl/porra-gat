@@ -589,8 +589,10 @@ label.form-label{font-size:.78em;color:var(--text2);font-weight:600;display:bloc
 <li><span>⚽ Más Goles Marcados</span><span>+9 pts</span></li>
 <li><span>🛡️ Menos Goles Encajados</span><span>+8 pts</span></li>
 <li><span>🎯 Tier 3 en Cuartos+</span><span>+7 pts por equipo</span></li>
+<li><span>🥇 1º de Grupo</span><span>+4 pts por equipo</span></li>
+<li><span>🥈 2º de Grupo</span><span>+2 pts por equipo</span></li>
 </ul>
-<p style="font-size:.78em;color:var(--text2);margin-top:12px;text-align:center"><em>Bonus extra por cada equipo Tier 3 que alcance Cuartos de final o más</em></p>
+<p style="font-size:.78em;color:var(--text2);margin-top:12px;text-align:center"><em>Bonus extra por posición de grupo y cada equipo Tier 3 que alcance Cuartos de final o más</em></p>
 </div>
 <div class="rule-card">
 <div class="icon">📋</div>
@@ -856,6 +858,8 @@ function calcP(p){
     if(bon.gs.includes(t)){bp+=9;bl.push('+9⚽')}
     if(bon.gc.includes(t)){bp+=8;bl.push('+8🛡️')}
     if(t3teams.includes(t)&&stageAtLeast(tp[t],'Quarter-Finals')){bp+=7;bl.push('+7🎯')}
+    if(gp[t]==='1st'){bp+=4;bl.push('+4🥇')}
+    if(gp[t]==='2nd'){bp+=2;bl.push('+2🥈')}
     total+=pts+bp;
     det.push({t,pts,bp,bl});
   });
