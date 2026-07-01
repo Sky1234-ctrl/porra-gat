@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FIFA World Cup 2026 Pool</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f5f5f7;--white:#fff;--card:#fff;--shadow:0 2px 16px rgba(0,0,0,.07);--shadow-hover:0 4px 24px rgba(0,0,0,.12);--border:#e8e8ed;--text:#1d1d1f;--text2:#6e6e73;--blue:#1a1a2e;--gold:#c9a84c;--gold-light:#f5ecd7;--red:#c0392b;--t1g1:#c9a84c;--t1g2:#e6c65a;--t2g1:#e67e22;--t2g2:#f39c12;--t3g1:#27ae60;--t3g2:#2ecc71;--accent:#2563eb;--accent2:#0ea5e9;--danger:#ef4444;--radius:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.app{max-width:1900px;width:min(1900px,98vw);margin:0 auto;padding:16px}
+.header{text-align:center;padding:30px 20px 10px;position:relative}
+.header-logos{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:10px}
+.header-logo-main{height:72px;display:block;filter:drop-shadow(0 3px 10px rgba(0,0,0,.08))}
+.wc-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:linear-gradient(135deg,#f8f2df,#efe2b8);border:1px solid #e0cc86;color:#5b4720;font-size:.8em;font-weight:800;letter-spacing:.9px;text-transform:uppercase;box-shadow:0 3px 12px rgba(201,168,76,.16)}
+.header h1{font-size:1.8em;font-weight:800;color:var(--blue);letter-spacing:-.5px}
+.header .sub{color:var(--text2);font-size:.9em;margin-top:2px}
+.tabs{display:flex;justify-content:center;gap:6px;margin:20px 0;flex-wrap:wrap}
+.tab{padding:10px 22px;border-radius:50px;border:none;background:var(--white);color:var(--text2);font-family:inherit;font-size:.88em;font-weight:600;cursor:pointer;transition:all .25s;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tab:hover{color:var(--text);box-shadow:var(--shadow)}
+.tab.active{background:var(--blue);color:#fff;box-shadow:0 2px 12px rgba(26,26,46,.25)}
+.panel{display:none;animation:fadeIn .3s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:16px;transition:box-shadow .25s}#panel-bracket .card{padding:24px 16px}
+.card:hover{box-shadow:var(--shadow-hover)}
+.card-title{font-size:1.05em;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.lb-table{width:100%;border-collapse:separate;border-spacing:0}
+.lb-table th{padding:10px 12px;font-size:.72em;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);font-weight:700;border-bottom:2px solid var(--border);text-align:left}
+.lb-table td{padding:12px;vertical-align:middle;border-bottom:1px solid #f0f0f0;font-size:.88em}
+.lb-table tr{transition:background .15s}
+.lb-table tbody tr:hover{background:#f8f8fa}
+.lb-top1{background:linear-gradient(90deg,#fffdf0,#fff)!important}
+.lb-top2{background:linear-gradient(90deg,#fafafa,#fff)!important}
+.lb-top3{background:linear-gradient(90deg,#fdf6ef,#fff)!important}
+.medal{font-size:1.3em;margin-right:4px}
+.rank-num{font-weight:800;font-size:1.1em;color:var(--blue)}
+.player-name{font-weight:700;font-size:.95em}
+.total-pts{font-weight:900;font-size:1.25em;color:var(--blue)}
+.bonus-pts{color:var(--accent);font-weight:700;font-size:.9em}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:8px;font-size:.76em;font-weight:700;margin:2px;white-space:nowrap}
+.badge-t1{background:linear-gradient(135deg,#fdf6e3,#f5ecd7);color:#8b6914;border:1px solid #e6d5a0}
+.badge-t2{background:linear-gradient(135deg,#fff3e0,#ffe8cc);color:#c45e00;border:1px solid #f5cfa0}
+.badge-t3{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:#1b5e20;border:1px solid #a5d6a7}
+.pts-mini{font-size:.72em;color:var(--text2);display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.pts-chip{background:#f0f0f3;padding:2px 7px;border-radius:6px;font-weight:600}
+.pts-chip.bonus{background:#dbeafe;color:var(--accent)}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;align-items:end}
+label.form-label{font-size:.78em;color:var(--text2);font-weight:600;display:block;margin-bottom:4px}
+.form-select,.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:12px;background:#fff;font-family:inherit;font-size:.88em;color:var(--text);outline:none;transition:border .2s}
+.form-select:focus,.form-input:focus{border-color:var(--accent)}
+.btn{padding:10px 24px;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:.88em;cursor:pointer;transition:all .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:#2a2a4e}
+.btn-red{background:var(--danger);color:#fff;padding:6px 12px;font-size:.76em;border-radius:8px}
+.btn-green{background:var(--t3g1);color:#fff}
+.err-msg{color:var(--danger);font-size:.82em;margin-top:8px}
+.groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.group-card{background:#fafafa;border-radius:14px;padding:16px;border:1px solid var(--border)}
+.group-card h3{font-size:.9em;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.team-row{display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap}
+.team-row:last-child{border-bottom:none}
+.team-flag{font-size:1.15em}
+.team-name{font-weight:600;font-size:.82em;min-width:100px;flex-shrink:0}
+.team-row select{padding:4px 8px;border:1px solid var(--border);border-radius:8px;font-size:.78em;background:#fff;font-family:inherit;max-width:120px}
+.team-row input[type=number]{width:48px;padding:4px 6px;border:1px solid var(--border);border-radius:8px;font-size:.78em;text-align:center;font-family:inherit}
+.stat-label{font-size:.65em;color:var(--text2);font-weight:600}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.rule-card{background:linear-gradient(135deg,#fafafa,#fff);border-radius:14px;padding:24px;border:1px solid var(--border);text-align:center}
+.rule-card .icon{font-size:2.2em;margin-bottom:10px}
+.rule-card h3{font-size:1em;font-weight:700;margin-bottom:12px;color:var(--blue)}
+.rule-card ul{list-style:none;text-align:left;font-size:.85em;line-height:2}
+.rule-card li{display:flex;justify-content:space-between;padding:0 8px;border-bottom:1px solid #f5f5f5}
+.rule-card li:last-child{border:none}
+.rule-card li span:last-child{font-weight:700;color:var(--blue)}
+.tier-preview{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:8px}
+.player-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.p-card{background:#fff;border-radius:14px;padding:18px;border:1px solid var(--border);transition:box-shadow .2s}
+.p-card:hover{box-shadow:var(--shadow)}
+.p-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.p-card-name{font-weight:800;font-size:1.05em}
+.p-card-teams{display:flex;flex-wrap:wrap;gap:4px}
+.empty{text-align:center;padding:50px 20px;color:var(--text2)}
+.empty .e-icon{font-size:3.5em;margin-bottom:12px}
+.empty p{font-size:.95em}
+.fab-download{position:fixed;bottom:28px;right:28px;background:var(--blue);color:#fff;border:none;padding:14px 22px;border-radius:50px;font-family:inherit;font-size:.88em;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(26,26,46,.35);transition:all .25s;z-index:1000;display:flex;align-items:center;gap:8px}
+.fab-download:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 6px 28px rgba(26,26,46,.45);background:#2a2a4e}
+.bracket-wrapper{overflow-x:visible;padding:14px 0 10px}
+.bracket-container{display:flex;align-items:center;justify-content:center;min-width:0;width:100%;gap:18px;padding:14px 6px;transform:scale(.88);transform-origin:top center}
+.bracket-round{display:flex;flex-direction:column;justify-content:center;gap:12px;min-width:168px;flex:0 0 168px;position:relative}
+.bracket-round.r32{gap:12px}
+.bracket-round.r16{gap:34px}
+.bracket-round.qf{gap:78px}
+.bracket-round.sf{gap:168px}
+.round-label{text-align:center;font-size:.72em;font-weight:900;text-transform:uppercase;letter-spacing:1.1px;color:var(--blue);margin-bottom:10px;padding:6px 14px;background:linear-gradient(135deg,#f6f6f8,#ececf2);border-radius:20px;display:inline-block;border:1px solid #e4e4ea}
+.match-card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.06);width:164px;overflow:visible;border:1px solid #ececf1;transition:box-shadow .2s;position:relative}
+.match-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.14)}
+.match-slot{padding:6px 10px;font-size:.76em;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .15s;border-bottom:1px solid #f0f0f0;color:var(--text);min-height:28px}
+.match-slot:last-child{border-bottom:none}
+.match-slot:hover{background:#f8f8fa}
+.match-slot.winner{background:#e8f5e9;color:#1b5e20;font-weight:800}
+.match-slot.empty-slot{color:#ccc;font-style:italic;cursor:default}
+.match-slot .slot-flag{font-size:1em}
+.bracket-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;min-width:190px;flex:0 0 190px;padding:0 8px;position:relative}
+.final-card{background:linear-gradient(135deg,#171731,#25254b);border-radius:16px;padding:18px 14px;box-shadow:0 8px 24px rgba(26,26,46,.28);min-width:170px;text-align:center;border:1px solid rgba(255,255,255,.08)}
+.final-card h3{color:#fff;font-size:.85em;margin-bottom:10px}
+.final-card .match-slot{background:rgba(255,255,255,.1);color:#fff;border-radius:8px;margin:3px 0;border:none;justify-content:center}
+.final-card .match-slot.winner{background:rgba(201,168,76,.4);color:#ffd700}
+.final-card .match-slot:hover{background:rgba(255,255,255,.2)}
+.winner-display{background:linear-gradient(135deg,#caa441,#efcd62);border-radius:18px;padding:18px 18px;text-align:center;box-shadow:0 10px 24px rgba(201,168,76,.30);border:1px solid rgba(255,255,255,.28)}
+.winner-display .trophy{font-size:2.2em}
+.winner-display .w-name{font-weight:900;font-size:1.1em;color:#1a1a2e;margin-top:4px}
+.third-card{background:linear-gradient(135deg,#fafafa,#f0f0f0);border-radius:12px;padding:12px 10px;border:1px solid var(--border);min-width:150px;text-align:center}
+.third-card h4{font-size:.75em;color:var(--text2);margin-bottom:8px}
+.third-card .match-slot{border-radius:6px;margin:2px 0;justify-content:center}
+.bracket-note{text-align:center;font-size:.82em;color:var(--text2);margin-bottom:16px;padding:10px 16px;background:#fff;border-radius:12px;border:1px solid var(--border);display:inline-block}
+.bracket-actions{text-align:center;margin-bottom:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.match-label{display:block;text-align:center;font-size:.56em;color:#b0b0b8;font-weight:700;letter-spacing:.4px;margin-bottom:2px;white-space:nowrap}
+/* ===== CHAMPIONS-STYLE CONNECTORS ===== */
+.bracket-round.left .match-card::after,.bracket-round.right .match-card::after,.bracket-round.left .match-card::before,.bracket-round.right .match-card::before{content:"";position:absolute;pointer-events:none}
+.bracket-round.left:not(.sf) .match-card::after{right:-18px;top:50%;width:18px;border-top:2px solid #d8dae3}
+.bracket-round.right:not(.sf) .match-card::after{left:-18px;top:50%;width:18px;border-top:2px solid #d8dae3}
+.bracket-round.left .match-card:nth-of-type(odd)::before{right:-18px;top:50%;height:calc(50% + 17px);border-right:2px solid #d8dae3}
+.bracket-round.left .match-card:nth-of-type(even)::before{right:-18px;bottom:50%;height:calc(50% + 17px);border-right:2px solid #d8dae3}
+.bracket-round.right .match-card:nth-of-type(odd)::before{left:-18px;top:50%;height:calc(50% + 17px);border-left:2px solid #d8dae3}
+.bracket-round.right .match-card:nth-of-type(even)::before{left:-18px;bottom:50%;height:calc(50% + 17px);border-left:2px solid #d8dae3}
+.bracket-round.qf .match-card:nth-of-type(odd)::before,.bracket-round.qf .match-card:nth-of-type(even)::before{height:calc(50% + 39px)}
+.bracket-round.sf .match-card::before,.bracket-round.sf .match-card::after{display:none}
+.bracket-round.sf.left::after,.bracket-round.sf.right::after{content:"";position:absolute;top:50%;width:22px;border-top:2px solid #d8dae3}
+.bracket-round.sf.left::after{right:-22px}
+.bracket-round.sf.right::after{left:-22px}
+.bracket-center::before,.bracket-center::after{content:"";position:absolute;top:50%;width:22px;border-top:2px solid #d8dae3}
+.bracket-center::before{left:-22px}
+.bracket-center::after{right:-22px}
+@media(max-width:1100px){
+  .bracket-wrapper{overflow-x:auto}
+  .bracket-container{min-width:1520px;transform:none;padding:18px 0}
+}
+@media(max-width:640px){
+  .header h1{font-size:1.3em}
+  .tab{padding:8px 14px;font-size:.82em}
+  .form-grid{grid-template-columns:1fr}
+  .groups-grid{grid-template-columns:1fr}
+  .lb-table{font-size:.82em}
+  .fab-download{padding:12px 16px;font-size:.82em;bottom:16px;right:16px}
+  .app{width:100%;max-width:100%;padding:10px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<div class="header-logos">
+<img class="header-logo-main" src="https://digitalhub.fifa.com/transform/8fd2a881-2527-4cf0-8faf-2e5a1e1e53f4/FIFA-World-Cup-26-Horizontal" alt="FIFA World Cup 2026" onerror="this.style.display='none'" style="display: none;">
+<div class="wc-badge">🏆 FIFA WORLD CUP 2026</div>
+</div>
+<h1>World Cup 2026 Pool ⚽</h1>
+<div class="sub">11 Jun – 19 Jul 2026 · USA · México · Canada · €10 entrada</div>
+</div>
+<div class="tabs">
+<button class="tab active" onclick="showTab('leaderboard',this)">🏆 Clasificación</button>
+<button class="tab" onclick="showTab('bracket',this)">📊 Cuadro</button>
+<button class="tab" onclick="showTab('players',this)">👥 Jugadores</button>
+<button class="tab" onclick="showTab('admin',this)">⚙️ Admin</button>
+<button class="tab" onclick="showTab('rules',this)">📜 Reglas</button>
+</div>
+
+<!-- LEADERBOARD -->
+<div class="panel active" id="panel-leaderboard">
+<div class="card">
+<div style="overflow-x:auto">
+<table class="lb-table" id="lbTable">
+<thead><tr><th style="width:50px">#</th><th>Jugador</th><th>Equipos</th><th>Detalle</th><th style="width:60px">Bonus</th><th style="width:70px">Total</th><th style="width:40px"></th></tr></thead>
+<tbody id="lbBody"><tr class="lb-top1"><td><span class="medal">🥇</span></td><td class="player-name">Sergio</td><td><span class="badge badge-t1">🇵🇹 Portugal</span><span class="badge badge-t2">🇲🇽 Mexico</span><span class="badge badge-t2">🇳🇱 Netherlands</span><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇨🇦 Canada</span></td><td><div class="pts-mini"><span class="pts-chip">10</span><span class="pts-chip bonus">+2🥈</span> <span class="pts-chip">15</span><span class="pts-chip bonus">+8🛡️</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span> <span class="pts-chip">15</span><span class="pts-chip bonus">+2🥈</span></div></td><td class="bonus-pts">+20</td><td class="total-pts">80</td><td><button class="btn-red" onclick="removePlayer(3)">✕</button></td></tr><tr class="lb-top2"><td><span class="medal">🥈</span></td><td class="player-name">Juan Carlos</td><td><span class="badge badge-t1">🇪🇸 Spain</span><span class="badge badge-t2">🇲🇦 Morocco</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇵🇾 Paraguay</span></td><td><div class="pts-mini"><span class="pts-chip">10</span><span class="pts-chip bonus">+8🛡️</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">15</span><span class="pts-chip bonus">+2🥈</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span> <span class="pts-chip">15</span></div></td><td class="bonus-pts">+18</td><td class="total-pts">78</td><td><button class="btn-red" onclick="removePlayer(6)">✕</button></td></tr><tr class="lb-top3"><td><span class="medal">🥉</span></td><td class="player-name">Joana</td><td><span class="badge badge-t1">🇪🇸 Spain</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t3">🇸🇪 Sweden</span><span class="badge badge-t3">🇨🇦 Canada</span></td><td><div class="pts-mini"><span class="pts-chip">10</span><span class="pts-chip bonus">+8🛡️</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span> <span class="pts-chip">15</span><span class="pts-chip bonus">+2🥈</span></div></td><td class="bonus-pts">+22</td><td class="total-pts">77</td><td><button class="btn-red" onclick="removePlayer(0)">✕</button></td></tr><tr class=""><td><span class="rank-num">4</span></td><td class="player-name">Juan José Leiro</td><td><span class="badge badge-t1">🇫🇷 France</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇳🇱 Netherlands</span><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇸🇪 Sweden</span></td><td><div class="pts-mini"><span class="pts-chip">15</span><span class="pts-chip bonus">+9⚽</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span> <span class="pts-chip">10</span></div></td><td class="bonus-pts">+21</td><td class="total-pts">76</td><td><button class="btn-red" onclick="removePlayer(2)">✕</button></td></tr><tr class=""><td><span class="rank-num">5</span></td><td class="player-name">Pedro</td><td><span class="badge badge-t1">🇪🇸 Spain</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇳🇴 Norway</span><span class="badge badge-t3">🇸🇪 Sweden</span><span class="badge badge-t3">🇪🇬 Egypt</span></td><td><div class="pts-mini"><span class="pts-chip">10</span><span class="pts-chip bonus">+8🛡️</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">15</span><span class="pts-chip bonus">+2🥈</span> <span class="pts-chip">10</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+2🥈</span></div></td><td class="bonus-pts">+20</td><td class="total-pts">75</td><td><button class="btn-red" onclick="removePlayer(7)">✕</button></td></tr><tr class=""><td><span class="rank-num">6</span></td><td class="player-name">Ugur</td><td><span class="badge badge-t1">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇳🇱 Netherlands</span><span class="badge badge-t3">🇦🇹 Austria</span><span class="badge badge-t3">🇸🇪 Sweden</span></td><td><div class="pts-mini"><span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+2🥈</span> <span class="pts-chip">10</span></div></td><td class="bonus-pts">+14</td><td class="total-pts">64</td><td><button class="btn-red" onclick="removePlayer(4)">✕</button></td></tr><tr class=""><td><span class="rank-num">7</span></td><td class="player-name">Pereira</td><td><span class="badge badge-t1">🇵🇹 Portugal</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇨🇩 DR Congo</span></td><td><div class="pts-mini"><span class="pts-chip">10</span><span class="pts-chip bonus">+2🥈</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span> <span class="pts-chip">10</span></div></td><td class="bonus-pts">+10</td><td class="total-pts">60</td><td><button class="btn-red" onclick="removePlayer(1)">✕</button></td></tr><tr class=""><td><span class="rank-num">8</span></td><td class="player-name">Robert</td><td><span class="badge badge-t1">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t3">🇰🇷 South Korea</span><span class="badge badge-t3">🇸🇳 Senegal</span></td><td><div class="pts-mini"><span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">10</span><span class="pts-chip bonus">+4🥇</span> <span class="pts-chip">0</span> <span class="pts-chip">10</span></div></td><td class="bonus-pts">+12</td><td class="total-pts">52</td><td><button class="btn-red" onclick="removePlayer(5)">✕</button></td></tr></tbody>
+</table>
+</div>
+<div class="empty" id="emptyLB" style="display:none"><div class="e-icon">🏟️</div><p>Aún no hay jugadores.<br>Ve a <strong>👥 Jugadores</strong> para añadir el primero.</p></div>
+</div>
+</div>
+
+<!-- BRACKET -->
+<div class="panel" id="panel-bracket">
+<div class="card">
+<div class="card-title">📊 Cuadro del Torneo</div>
+<div style="text-align:center;margin-bottom:12px">
+<span class="bracket-note">💡 Ronda de 32 fija/manual según el cuadro inicial. A partir de ahí, el avance se actualiza desde Admin.</span>
+</div>
+<div class="bracket-actions">
+<button class="btn btn-blue" onclick="autoFillBracket()">🔄 Actualizar desde Admin</button>
+<button class="btn btn-green" onclick="clearBracket()">🗑️ Limpiar Cuadro</button>
+</div>
+<div class="bracket-wrapper">
+<div class="bracket-container" id="bracketContainer"><div class="bracket-round r32 left"><div style="text-align:center;margin-bottom:6px"><span class="round-label">Dieciseisavos</span></div><div><span class="match-label">M74: 1E vs 3º</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',0,'Germany')"><span class="slot-flag">🇩🇪</span> Germany</div><div class="match-slot " onclick="selWin('r32',0,'Bosnia-Herzegovina')"><span class="slot-flag">🇧🇦</span> Bosnia-Herzegovina</div></div></div><div><span class="match-label">M77: 1I vs 3º</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',1,'France')"><span class="slot-flag">🇫🇷</span> France</div><div class="match-slot " onclick="selWin('r32',1,'Paraguay')"><span class="slot-flag">🇵🇾</span> Paraguay</div></div></div><div><span class="match-label">M73: 2A vs 2B</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',2,'South Africa')"><span class="slot-flag">🇿🇦</span> South Africa</div><div class="match-slot " onclick="selWin('r32',2,'Canada')"><span class="slot-flag">🇨🇦</span> Canada</div></div></div><div><span class="match-label">M75: 1F vs 2C</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',3,'Netherlands')"><span class="slot-flag">🇳🇱</span> Netherlands</div><div class="match-slot " onclick="selWin('r32',3,'Morocco')"><span class="slot-flag">🇲🇦</span> Morocco</div></div></div><div><span class="match-label">M83: 2K vs 2L</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',4,'Portugal')"><span class="slot-flag">🇵🇹</span> Portugal</div><div class="match-slot " onclick="selWin('r32',4,'Croatia')"><span class="slot-flag">🇭🇷</span> Croatia</div></div></div><div><span class="match-label">M84: 1H vs 2J</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',5,'Spain')"><span class="slot-flag">🇪🇸</span> Spain</div><div class="match-slot " onclick="selWin('r32',5,'Austria')"><span class="slot-flag">🇦🇹</span> Austria</div></div></div><div><span class="match-label">M81: 1D vs 3º</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',6,'USA')"><span class="slot-flag">🇺🇸</span> USA</div><div class="match-slot " onclick="selWin('r32',6,'Ecuador')"><span class="slot-flag">🇪🇨</span> Ecuador</div></div></div><div><span class="match-label">M82: 1G vs 3º</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',7,'Belgium')"><span class="slot-flag">🇧🇪</span> Belgium</div><div class="match-slot " onclick="selWin('r32',7,'Senegal')"><span class="slot-flag">🇸🇳</span> Senegal</div></div></div></div><div class="bracket-round r16 left"><div style="text-align:center;margin-bottom:6px"><span class="round-label">Octavos</span></div><div><span class="match-label">M89</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M90</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M93</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M94</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div></div><div class="bracket-round qf left"><div style="text-align:center;margin-bottom:6px"><span class="round-label">Cuartos</span></div><div><span class="match-label">M97</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M98</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div></div><div class="bracket-round sf left"><div style="text-align:center;margin-bottom:6px"><span class="round-label">Semifinales</span></div><div><span class="match-label">M101</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div></div><div class="bracket-center"><div class="winner-display"><div class="trophy">🏆</div><div class="w-name">¿Campeón?</div></div><div class="final-card"><h3>⚽ FINAL</h3><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div><div class="third-card"><h4>🥉 3er Puesto</h4><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div class="bracket-round sf right"><div style="text-align:center;margin-bottom:6px"><span class="round-label">Semifinales</span></div><div><span class="match-label">M102</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div></div><div class="bracket-round qf right"><div style="text-align:center;margin-bottom:6px"><span class="round-label">Cuartos</span></div><div><span class="match-label">M99</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M100</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div></div><div class="bracket-round r16 right"><div style="text-align:center;margin-bottom:6px"><span class="round-label">Octavos</span></div><div><span class="match-label">M91</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M92</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M95</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M96</span><div class="match-card"><div class="match-slot empty-slot">— TBD —</div><div class="match-slot empty-slot">— TBD —</div></div></div></div><div class="bracket-round r32 right"><div style="text-align:center;margin-bottom:6px"><span class="round-label">Dieciseisavos</span></div><div><span class="match-label">M76: 1C vs 2F</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',8,'Brazil')"><span class="slot-flag">🇧🇷</span> Brazil</div><div class="match-slot " onclick="selWin('r32',8,'Japan')"><span class="slot-flag">🇯🇵</span> Japan</div></div></div><div><span class="match-label">M78: 2E vs 2I</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',9,'Ivory Coast')"><span class="slot-flag">🇨🇮</span> Ivory Coast</div><div class="match-slot " onclick="selWin('r32',9,'Norway')"><span class="slot-flag">🇳🇴</span> Norway</div></div></div><div><span class="match-label">M79: 1A vs 3º</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',10,'Mexico')"><span class="slot-flag">🇲🇽</span> Mexico</div><div class="match-slot " onclick="selWin('r32',10,'Sweden')"><span class="slot-flag">🇸🇪</span> Sweden</div></div></div><div><span class="match-label">M80: 1L vs 3º</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',11,'England')"><span class="slot-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</div><div class="match-slot " onclick="selWin('r32',11,'Algeria')"><span class="slot-flag">🇩🇿</span> Algeria</div></div></div><div><span class="match-label">M86: 1J vs 2H</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',12,'Argentina')"><span class="slot-flag">🇦🇷</span> Argentina</div><div class="match-slot " onclick="selWin('r32',12,'Cape Verde')"><span class="slot-flag">🇨🇻</span> Cape Verde</div></div></div><div><span class="match-label">M88: 2D vs 2G</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',13,'Australia')"><span class="slot-flag">🇦🇺</span> Australia</div><div class="match-slot " onclick="selWin('r32',13,'Egypt')"><span class="slot-flag">🇪🇬</span> Egypt</div></div></div><div><span class="match-label">M85: 1B vs 3º</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',14,'Switzerland')"><span class="slot-flag">🇨🇭</span> Switzerland</div><div class="match-slot empty-slot">— TBD —</div></div></div><div><span class="match-label">M87: 1K vs 3º</span><div class="match-card"><div class="match-slot " onclick="selWin('r32',15,'Colombia')"><span class="slot-flag">🇨🇴</span> Colombia</div><div class="match-slot " onclick="selWin('r32',15,'Ghana')"><span class="slot-flag">🇬🇭</span> Ghana</div></div></div></div></div>
+</div>
+</div>
+</div>
+
+<!-- PLAYERS -->
+<div class="panel" id="panel-players">
+<div class="card">
+<div class="card-title">➕ Registrar Jugador</div>
+<div class="form-grid" id="playerForm">
+<div><label class="form-label">Nombre</label><input class="form-input" type="text" id="pName" placeholder="Ej: Pedro"></div>
+<div><label class="form-label"><span class="badge badge-t1" style="font-size:.7em">T1</span> Elige 1</label><select class="form-select" id="pT1"><option value="">-- Selecciona --</option><option value="Spain">🇪🇸 Spain</option><option value="France">🇫🇷 France</option><option value="England">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</option><option value="Brazil">🇧🇷 Brazil</option><option value="Argentina">🇦🇷 Argentina</option><option value="Portugal">🇵🇹 Portugal</option></select></div>
+<div><label class="form-label"><span class="badge badge-t2" style="font-size:.7em">T2</span> Equipo 1</label><select class="form-select" id="pT2a"><option value="">-- Selecciona --</option><option value="Germany">🇩🇪 Germany</option><option value="Netherlands">🇳🇱 Netherlands</option><option value="Norway">🇳🇴 Norway</option><option value="Belgium">🇧🇪 Belgium</option><option value="Colombia">🇨🇴 Colombia</option><option value="Japan">🇯🇵 Japan</option><option value="Morocco">🇲🇦 Morocco</option><option value="USA">🇺🇸 USA</option><option value="Uruguay">🇺🇾 Uruguay</option><option value="Switzerland">🇨🇭 Switzerland</option><option value="Mexico">🇲🇽 Mexico</option><option value="Croatia">🇭🇷 Croatia</option><option value="Turkey">🇹🇷 Turkey</option><option value="Ecuador">🇪🇨 Ecuador</option></select></div>
+<div><label class="form-label"><span class="badge badge-t2" style="font-size:.7em">T2</span> Equipo 2</label><select class="form-select" id="pT2b"><option value="">-- Selecciona --</option><option value="Germany">🇩🇪 Germany</option><option value="Netherlands">🇳🇱 Netherlands</option><option value="Norway">🇳🇴 Norway</option><option value="Belgium">🇧🇪 Belgium</option><option value="Colombia">🇨🇴 Colombia</option><option value="Japan">🇯🇵 Japan</option><option value="Morocco">🇲🇦 Morocco</option><option value="USA">🇺🇸 USA</option><option value="Uruguay">🇺🇾 Uruguay</option><option value="Switzerland">🇨🇭 Switzerland</option><option value="Mexico">🇲🇽 Mexico</option><option value="Croatia">🇭🇷 Croatia</option><option value="Turkey">🇹🇷 Turkey</option><option value="Ecuador">🇪🇨 Ecuador</option></select></div>
+<div><label class="form-label"><span class="badge badge-t3" style="font-size:.7em">T3</span> Equipo 1</label><select class="form-select" id="pT3a"><option value="">-- Selecciona --</option><option value="Senegal">🇸🇳 Senegal</option><option value="Sweden">🇸🇪 Sweden</option><option value="Canada">🇨🇦 Canada</option><option value="Austria">🇦🇹 Austria</option><option value="Paraguay">🇵🇾 Paraguay</option><option value="Scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option><option value="Bosnia-Herzegovina">🇧🇦 Bosnia-Herzegovina</option><option value="Ivory Coast">🇨🇮 Ivory Coast</option><option value="Egypt">🇪🇬 Egypt</option><option value="Czechia">🇨🇿 Czechia</option><option value="Ghana">🇬🇭 Ghana</option><option value="Algeria">🇩🇿 Algeria</option><option value="South Korea">🇰🇷 South Korea</option><option value="Tunisia">🇹🇳 Tunisia</option><option value="Australia">🇦🇺 Australia</option><option value="Iran">🇮🇷 Iran</option><option value="DR Congo">🇨🇩 DR Congo</option><option value="South Africa">🇿🇦 South Africa</option><option value="Saudi Arabia">🇸🇦 Saudi Arabia</option><option value="Panama">🇵🇦 Panama</option><option value="Iraq">🇮🇶 Iraq</option><option value="Uzbekistan">🇺🇿 Uzbekistan</option><option value="Qatar">🇶🇦 Qatar</option><option value="Cape Verde">🇨🇻 Cape Verde</option><option value="New Zealand">🇳🇿 New Zealand</option><option value="Jordan">🇯🇴 Jordan</option><option value="Haiti">🇭🇹 Haiti</option><option value="Curaçao">🇨🇼 Curaçao</option></select></div>
+<div><label class="form-label"><span class="badge badge-t3" style="font-size:.7em">T3</span> Equipo 2</label><select class="form-select" id="pT3b"><option value="">-- Selecciona --</option><option value="Senegal">🇸🇳 Senegal</option><option value="Sweden">🇸🇪 Sweden</option><option value="Canada">🇨🇦 Canada</option><option value="Austria">🇦🇹 Austria</option><option value="Paraguay">🇵🇾 Paraguay</option><option value="Scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option><option value="Bosnia-Herzegovina">🇧🇦 Bosnia-Herzegovina</option><option value="Ivory Coast">🇨🇮 Ivory Coast</option><option value="Egypt">🇪🇬 Egypt</option><option value="Czechia">🇨🇿 Czechia</option><option value="Ghana">🇬🇭 Ghana</option><option value="Algeria">🇩🇿 Algeria</option><option value="South Korea">🇰🇷 South Korea</option><option value="Tunisia">🇹🇳 Tunisia</option><option value="Australia">🇦🇺 Australia</option><option value="Iran">🇮🇷 Iran</option><option value="DR Congo">🇨🇩 DR Congo</option><option value="South Africa">🇿🇦 South Africa</option><option value="Saudi Arabia">🇸🇦 Saudi Arabia</option><option value="Panama">🇵🇦 Panama</option><option value="Iraq">🇮🇶 Iraq</option><option value="Uzbekistan">🇺🇿 Uzbekistan</option><option value="Qatar">🇶🇦 Qatar</option><option value="Cape Verde">🇨🇻 Cape Verde</option><option value="New Zealand">🇳🇿 New Zealand</option><option value="Jordan">🇯🇴 Jordan</option><option value="Haiti">🇭🇹 Haiti</option><option value="Curaçao">🇨🇼 Curaçao</option></select></div>
+<div style="display:flex;align-items:end"><button class="btn btn-blue" onclick="addPlayer()">Añadir ➕</button></div>
+</div>
+<div class="err-msg" id="regErr"></div>
+</div>
+<div class="card" style="margin-top:8px">
+<div class="card-title">👥 Jugadores Registrados</div>
+<div class="player-cards" id="playerCards"><div class="p-card"><div class="p-card-header"><span class="p-card-name">Joana</span><button class="btn-red" onclick="removePlayer(0)">✕</button></div><div class="p-card-teams"><span class="badge badge-t1">🇪🇸 Spain</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t3">🇸🇪 Sweden</span><span class="badge badge-t3">🇨🇦 Canada</span></div></div><div class="p-card"><div class="p-card-header"><span class="p-card-name">Pereira</span><button class="btn-red" onclick="removePlayer(1)">✕</button></div><div class="p-card-teams"><span class="badge badge-t1">🇵🇹 Portugal</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇨🇩 DR Congo</span></div></div><div class="p-card"><div class="p-card-header"><span class="p-card-name">Juan José Leiro</span><button class="btn-red" onclick="removePlayer(2)">✕</button></div><div class="p-card-teams"><span class="badge badge-t1">🇫🇷 France</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇳🇱 Netherlands</span><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇸🇪 Sweden</span></div></div><div class="p-card"><div class="p-card-header"><span class="p-card-name">Sergio</span><button class="btn-red" onclick="removePlayer(3)">✕</button></div><div class="p-card-teams"><span class="badge badge-t1">🇵🇹 Portugal</span><span class="badge badge-t2">🇲🇽 Mexico</span><span class="badge badge-t2">🇳🇱 Netherlands</span><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇨🇦 Canada</span></div></div><div class="p-card"><div class="p-card-header"><span class="p-card-name">Ugur</span><button class="btn-red" onclick="removePlayer(4)">✕</button></div><div class="p-card-teams"><span class="badge badge-t1">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇳🇱 Netherlands</span><span class="badge badge-t3">🇦🇹 Austria</span><span class="badge badge-t3">🇸🇪 Sweden</span></div></div><div class="p-card"><div class="p-card-header"><span class="p-card-name">Robert</span><button class="btn-red" onclick="removePlayer(5)">✕</button></div><div class="p-card-teams"><span class="badge badge-t1">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t3">🇰🇷 South Korea</span><span class="badge badge-t3">🇸🇳 Senegal</span></div></div><div class="p-card"><div class="p-card-header"><span class="p-card-name">Juan Carlos</span><button class="btn-red" onclick="removePlayer(6)">✕</button></div><div class="p-card-teams"><span class="badge badge-t1">🇪🇸 Spain</span><span class="badge badge-t2">🇲🇦 Morocco</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇵🇾 Paraguay</span></div></div><div class="p-card"><div class="p-card-header"><span class="p-card-name">Pedro</span><button class="btn-red" onclick="removePlayer(7)">✕</button></div><div class="p-card-teams"><span class="badge badge-t1">🇪🇸 Spain</span><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇳🇴 Norway</span><span class="badge badge-t3">🇸🇪 Sweden</span><span class="badge badge-t3">🇪🇬 Egypt</span></div></div></div>
+<div class="empty" id="emptyPlayers" style="display:none"><div class="e-icon">👤</div><p>Ningún jugador registrado aún.</p></div>
+</div>
+</div>
+
+<!-- ADMIN -->
+<div class="panel" id="panel-admin">
+<div class="card">
+<div class="card-title">⚙️ Progreso del Torneo</div>
+<p style="font-size:.82em;color:var(--text2);margin-bottom:14px">Asigna la <strong>posición de grupo</strong> (1º-4º), la <strong>fase alcanzada</strong> y estadísticas de cada equipo. Pulsa <strong>Guardar</strong> al terminar.</p>
+<div class="groups-grid" id="groupsGrid"><div class="group-card"><h3>🏟️ Grupo A</h3><div class="team-row">
+        <span class="team-flag">🇲🇽</span>
+        <span class="team-name">Mexico</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Mexico']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Mexico']=this.value"><option value="Group Stage">GS</option><option value="Round of 32">R32</option><option value="Round of 16" selected="">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="8" onchange="ts['Mexico'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="0" onchange="ts['Mexico'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇿🇦</span>
+        <span class="team-name">South Africa</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['South Africa']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['South Africa']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['South Africa'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="3" onchange="ts['South Africa'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇰🇷</span>
+        <span class="team-name">South Korea</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['South Korea']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['South Korea']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['South Korea'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="3" onchange="ts['South Korea'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇨🇿</span>
+        <span class="team-name">Czechia</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Czechia']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Czechia']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Czechia'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="6" onchange="ts['Czechia'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo B</h3><div class="team-row">
+        <span class="team-flag">🇨🇦</span>
+        <span class="team-name">Canada</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Canada']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Canada']=this.value"><option value="Group Stage">GS</option><option value="Round of 32">R32</option><option value="Round of 16" selected="">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="9" onchange="ts['Canada'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="3" onchange="ts['Canada'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇧🇦</span>
+        <span class="team-name">Bosnia-Herzegovina</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Bosnia-Herzegovina']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Bosnia-Herzegovina']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="5" onchange="ts['Bosnia-Herzegovina'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="6" onchange="ts['Bosnia-Herzegovina'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇶🇦</span>
+        <span class="team-name">Qatar</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Qatar']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Qatar']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Qatar'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="10" onchange="ts['Qatar'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇨🇭</span>
+        <span class="team-name">Switzerland</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Switzerland']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Switzerland']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="7" onchange="ts['Switzerland'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="3" onchange="ts['Switzerland'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo C</h3><div class="team-row">
+        <span class="team-flag">🇧🇷</span>
+        <span class="team-name">Brazil</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Brazil']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Brazil']=this.value"><option value="Group Stage">GS</option><option value="Round of 32">R32</option><option value="Round of 16" selected="">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="9" onchange="ts['Brazil'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['Brazil'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇲🇦</span>
+        <span class="team-name">Morocco</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Morocco']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Morocco']=this.value"><option value="Group Stage">GS</option><option value="Round of 32">R32</option><option value="Round of 16" selected="">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="7" onchange="ts['Morocco'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="4" onchange="ts['Morocco'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
+        <span class="team-name">Scotland</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Scotland']=this.value" title="Posición en grupo"><option value="" selected="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Scotland']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="1" onchange="ts['Scotland'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="4" onchange="ts['Scotland'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇭🇹</span>
+        <span class="team-name">Haiti</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Haiti']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Haiti']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Haiti'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="8" onchange="ts['Haiti'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo D</h3><div class="team-row">
+        <span class="team-flag">🇺🇸</span>
+        <span class="team-name">USA</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['USA']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['USA']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="8" onchange="ts['USA'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="4" onchange="ts['USA'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇵🇾</span>
+        <span class="team-name">Paraguay</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Paraguay']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Paraguay']=this.value"><option value="Group Stage">GS</option><option value="Round of 32">R32</option><option value="Round of 16" selected="">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="3" onchange="ts['Paraguay'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="5" onchange="ts['Paraguay'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇦🇺</span>
+        <span class="team-name">Australia</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Australia']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Australia']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Australia'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['Australia'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇹🇷</span>
+        <span class="team-name">Turkey</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Turkey']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Turkey']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="3" onchange="ts['Turkey'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="5" onchange="ts['Turkey'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo E</h3><div class="team-row">
+        <span class="team-flag">🇩🇪</span>
+        <span class="team-name">Germany</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Germany']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Germany']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="11" onchange="ts['Germany'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="5" onchange="ts['Germany'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇨🇮</span>
+        <span class="team-name">Ivory Coast</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Ivory Coast']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Ivory Coast']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="4" onchange="ts['Ivory Coast'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['Ivory Coast'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇪🇨</span>
+        <span class="team-name">Ecuador</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Ecuador']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Ecuador']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Ecuador'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['Ecuador'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇨🇼</span>
+        <span class="team-name">Curaçao</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Curaçao']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Curaçao']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="1" onchange="ts['Curaçao'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="9" onchange="ts['Curaçao'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo F</h3><div class="team-row">
+        <span class="team-flag">🇳🇱</span>
+        <span class="team-name">Netherlands</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Netherlands']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Netherlands']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="11" onchange="ts['Netherlands'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="5" onchange="ts['Netherlands'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇯🇵</span>
+        <span class="team-name">Japan</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Japan']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Japan']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="7" onchange="ts['Japan'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="3" onchange="ts['Japan'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇸🇪</span>
+        <span class="team-name">Sweden</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Sweden']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Sweden']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="7" onchange="ts['Sweden'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="7" onchange="ts['Sweden'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇹🇳</span>
+        <span class="team-name">Tunisia</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Tunisia']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Tunisia']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Tunisia'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="12" onchange="ts['Tunisia'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo G</h3><div class="team-row">
+        <span class="team-flag">🇧🇪</span>
+        <span class="team-name">Belgium</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Belgium']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Belgium']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="6" onchange="ts['Belgium'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['Belgium'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇪🇬</span>
+        <span class="team-name">Egypt</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Egypt']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Egypt']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="5" onchange="ts['Egypt'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="3" onchange="ts['Egypt'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇮🇷</span>
+        <span class="team-name">Iran</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Iran']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Iran']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="3" onchange="ts['Iran'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="3" onchange="ts['Iran'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇳🇿</span>
+        <span class="team-name">New Zealand</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['New Zealand']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['New Zealand']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="4" onchange="ts['New Zealand'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="10" onchange="ts['New Zealand'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo H</h3><div class="team-row">
+        <span class="team-flag">🇪🇸</span>
+        <span class="team-name">Spain</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Spain']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Spain']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="5" onchange="ts['Spain'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="0" onchange="ts['Spain'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇨🇻</span>
+        <span class="team-name">Cape Verde</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Cape Verde']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Cape Verde']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Cape Verde'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['Cape Verde'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇸🇦</span>
+        <span class="team-name">Saudi Arabia</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Saudi Arabia']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Saudi Arabia']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="1" onchange="ts['Saudi Arabia'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="5" onchange="ts['Saudi Arabia'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇺🇾</span>
+        <span class="team-name">Uruguay</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Uruguay']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Uruguay']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="3" onchange="ts['Uruguay'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="4" onchange="ts['Uruguay'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo I</h3><div class="team-row">
+        <span class="team-flag">🇫🇷</span>
+        <span class="team-name">France</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['France']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['France']=this.value"><option value="Group Stage">GS</option><option value="Round of 32">R32</option><option value="Round of 16" selected="">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="13" onchange="ts['France'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['France'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇸🇳</span>
+        <span class="team-name">Senegal</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Senegal']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Senegal']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="8" onchange="ts['Senegal'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="6" onchange="ts['Senegal'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇳🇴</span>
+        <span class="team-name">Norway</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Norway']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Norway']=this.value"><option value="Group Stage">GS</option><option value="Round of 32">R32</option><option value="Round of 16" selected="">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="10" onchange="ts['Norway'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="8" onchange="ts['Norway'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇮🇶</span>
+        <span class="team-name">Iraq</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Iraq']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Iraq']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="1" onchange="ts['Iraq'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="12" onchange="ts['Iraq'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo J</h3><div class="team-row">
+        <span class="team-flag">🇦🇷</span>
+        <span class="team-name">Argentina</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Argentina']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Argentina']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="8" onchange="ts['Argentina'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="1" onchange="ts['Argentina'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇩🇿</span>
+        <span class="team-name">Algeria</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Algeria']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Algeria']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="5" onchange="ts['Algeria'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="7" onchange="ts['Algeria'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇦🇹</span>
+        <span class="team-name">Austria</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Austria']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Austria']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="6" onchange="ts['Austria'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="6" onchange="ts['Austria'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇯🇴</span>
+        <span class="team-name">Jordan</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Jordan']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Jordan']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="3" onchange="ts['Jordan'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="8" onchange="ts['Jordan'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo K</h3><div class="team-row">
+        <span class="team-flag">🇵🇹</span>
+        <span class="team-name">Portugal</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Portugal']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Portugal']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="6" onchange="ts['Portugal'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="1" onchange="ts['Portugal'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇨🇴</span>
+        <span class="team-name">Colombia</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Colombia']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Colombia']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="4" onchange="ts['Colombia'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="1" onchange="ts['Colombia'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇺🇿</span>
+        <span class="team-name">Uzbekistan</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Uzbekistan']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Uzbekistan']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Uzbekistan'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="11" onchange="ts['Uzbekistan'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇨🇩</span>
+        <span class="team-name">DR Congo</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['DR Congo']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['DR Congo']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="4" onchange="ts['DR Congo'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="3" onchange="ts['DR Congo'].gc=+this.value"></div>
+      </div></div><div class="group-card"><h3>🏟️ Grupo L</h3><div class="team-row">
+        <span class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+        <span class="team-name">England</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['England']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st" selected="">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['England']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="6" onchange="ts['England'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['England'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇭🇷</span>
+        <span class="team-name">Croatia</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Croatia']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd" selected="">2º</option><option value="3rd">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Croatia']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="5" onchange="ts['Croatia'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="5" onchange="ts['Croatia'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇵🇦</span>
+        <span class="team-name">Panama</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Panama']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd">3º</option><option value="4th" selected="">4º</option></select>
+        <select onchange="tp['Panama']=this.value"><option value="Group Stage" selected="">GS</option><option value="Round of 32">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="0" onchange="ts['Panama'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="4" onchange="ts['Panama'].gc=+this.value"></div>
+      </div><div class="team-row">
+        <span class="team-flag">🇬🇭</span>
+        <span class="team-name">Ghana</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['Ghana']=this.value" title="Posición en grupo"><option value="">—</option><option value="1st">1º</option><option value="2nd">2º</option><option value="3rd" selected="">3º</option><option value="4th">4º</option></select>
+        <select onchange="tp['Ghana']=this.value"><option value="Group Stage">GS</option><option value="Round of 32" selected="">R32</option><option value="Round of 16">R16</option><option value="Quarter-Finals">QF</option><option value="4th Place">4th Place</option><option value="3rd Place">3rd Place</option><option value="Runner-up">Runner-up</option><option value="Winner">Winner</option></select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="2" onchange="ts['Ghana'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="2" onchange="ts['Ghana'].gc=+this.value"></div>
+      </div></div></div>
+<div style="margin-top:18px;text-align:center"><button class="btn btn-blue" onclick="saveAdmin()">💾 Guardar Todo</button></div>
+</div>
+</div>
+
+<!-- RULES -->
+<div class="panel" id="panel-rules">
+<div class="rules-grid">
+<div class="rule-card">
+<div class="icon">🏆</div>
+<h3>Puntos por Fase</h3>
+<ul>
+<li><span>🥇 Campeón</span><span>145 pts acum. (10+15+20+100)</span></li>
+<li><span>🥈 Subcampeón</span><span>120 pts acum. (10+15+20+75)</span></li>
+<li><span>🥉 3er Puesto</span><span>95 pts acum. (10+15+20+50)</span></li>
+<li><span>4º Puesto</span><span>70 pts acum. (10+15+20+25)</span></li>
+<li><span>Cuartos de Final</span><span>45 pts acum. (10+15+20)</span></li>
+<li><span>Octavos (R16)</span><span>25 pts acum. (10+15)</span></li>
+<li><span>Dieciseisavos (R32)</span><span>10 pts</span></li>
+<li><span>Fase de Grupos</span><span>0 pts</span></li>
+</ul>
+<p style="font-size:.78em;color:var(--text2);margin-top:12px;text-align:center"><em>Los puntos de fase son acumulativos.</em></p>
+</div>
+<div class="rule-card">
+<div class="icon">⭐</div>
+<h3>Bonus</h3>
+<ul>
+<li><span>⚽ Más Goles Marcados</span><span>+9 pts</span></li>
+<li><span>🛡️ Menos Goles Encajados</span><span>+8 pts</span></li>
+<li><span>🎯 Tier 3 en Cuartos+</span><span>+7 pts por equipo</span></li>
+<li><span>🥇 1º de Grupo</span><span>+4 pts por equipo</span></li>
+<li><span>🥈 2º de Grupo</span><span>+2 pts por equipo</span></li>
+</ul>
+<p style="font-size:.78em;color:var(--text2);margin-top:12px;text-align:center"><em>Bonus extra por posición de grupo y cada equipo Tier 3 que alcance Cuartos de final o más</em></p>
+</div>
+<div class="rule-card">
+<div class="icon">📋</div>
+<h3>Cómo Jugar</h3>
+<ul style="line-height:2.2">
+<li><span>Entrada</span><span>€10</span></li>
+<li><span>Equipos por jugador</span><span>5</span></li>
+</ul>
+<div style="margin-top:14px;text-align:left;font-size:.85em">
+<p><span class="badge badge-t1">TIER 1</span> Elige <strong>1</strong> favorito</p>
+<p style="margin-top:6px"><span class="badge badge-t2">TIER 2</span> Elige <strong>2</strong> contendientes</p>
+<p style="margin-top:6px"><span class="badge badge-t3">TIER 3</span> Elige <strong>2</strong> underdogs</p>
+</div>
+</div>
+<div class="rule-card">
+<div class="icon">🌍</div>
+<h3>Tier 1 — Favoritos</h3>
+<div class="tier-preview" id="tierPreview1"><span class="badge badge-t1">🇪🇸 Spain</span><span class="badge badge-t1">🇫🇷 France</span><span class="badge badge-t1">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="badge badge-t1">🇧🇷 Brazil</span><span class="badge badge-t1">🇦🇷 Argentina</span><span class="badge badge-t1">🇵🇹 Portugal</span></div>
+</div>
+<div class="rule-card">
+<div class="icon">💪</div>
+<h3>Tier 2 — Contendientes</h3>
+<div class="tier-preview" id="tierPreview2"><span class="badge badge-t2">🇩🇪 Germany</span><span class="badge badge-t2">🇳🇱 Netherlands</span><span class="badge badge-t2">🇳🇴 Norway</span><span class="badge badge-t2">🇧🇪 Belgium</span><span class="badge badge-t2">🇨🇴 Colombia</span><span class="badge badge-t2">🇯🇵 Japan</span><span class="badge badge-t2">🇲🇦 Morocco</span><span class="badge badge-t2">🇺🇸 USA</span><span class="badge badge-t2">🇺🇾 Uruguay</span><span class="badge badge-t2">🇨🇭 Switzerland</span><span class="badge badge-t2">🇲🇽 Mexico</span><span class="badge badge-t2">🇭🇷 Croatia</span><span class="badge badge-t2">🇹🇷 Turkey</span><span class="badge badge-t2">🇪🇨 Ecuador</span></div>
+</div>
+<div class="rule-card">
+<div class="icon">🎲</div>
+<h3>Tier 3 — Underdogs</h3>
+<div class="tier-preview" id="tierPreview3"><span class="badge badge-t3">🇸🇳 Senegal</span><span class="badge badge-t3">🇸🇪 Sweden</span><span class="badge badge-t3">🇨🇦 Canada</span><span class="badge badge-t3">🇦🇹 Austria</span><span class="badge badge-t3">🇵🇾 Paraguay</span><span class="badge badge-t3">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</span><span class="badge badge-t3">🇧🇦 Bosnia-Herzegovina</span><span class="badge badge-t3">🇨🇮 Ivory Coast</span><span class="badge badge-t3">🇪🇬 Egypt</span><span class="badge badge-t3">🇨🇿 Czechia</span><span class="badge badge-t3">🇬🇭 Ghana</span><span class="badge badge-t3">🇩🇿 Algeria</span><span class="badge badge-t3">🇰🇷 South Korea</span><span class="badge badge-t3">🇹🇳 Tunisia</span><span class="badge badge-t3">🇦🇺 Australia</span><span class="badge badge-t3">🇮🇷 Iran</span><span class="badge badge-t3">🇨🇩 DR Congo</span><span class="badge badge-t3">🇿🇦 South Africa</span><span class="badge badge-t3">🇸🇦 Saudi Arabia</span><span class="badge badge-t3">🇵🇦 Panama</span><span class="badge badge-t3">🇮🇶 Iraq</span><span class="badge badge-t3">🇺🇿 Uzbekistan</span><span class="badge badge-t3">🇶🇦 Qatar</span><span class="badge badge-t3">🇨🇻 Cape Verde</span><span class="badge badge-t3">🇳🇿 New Zealand</span><span class="badge badge-t3">🇯🇴 Jordan</span><span class="badge badge-t3">🇭🇹 Haiti</span><span class="badge badge-t3">🇨🇼 Curaçao</span></div>
+</div>
+</div>
+</div>
+<div style="text-align:center;padding:30px;color:var(--text2);font-size:.78em">FIFA World Cup 2026 Pool Tracker · Hecho con ❤️</div>
+</div>
+<button class="fab-download" onclick="exportHTML()" title="Descargar HTML con datos actuales">💾 Descargar HTML</button>
+
+
+
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>var PRELOAD_DATA={"tp":{"France":"Round of 16","Tunisia":"Group Stage","Uruguay":"Group Stage","Iraq":"Group Stage","Bosnia-Herzegovina":"Round of 32","Haiti":"Group Stage","Portugal":"Round of 32","Croatia":"Round of 32","Ghana":"Round of 32","Ecuador":"Round of 32","Brazil":"Round of 16","Turkey":"Group Stage","Paraguay":"Round of 16","Czechia":"Group Stage","Uzbekistan":"Group Stage","Mexico":"Round of 16","Morocco":"Round of 16","USA":"Round of 32","Sweden":"Round of 32","Algeria":"Round of 32","Austria":"Round of 32","Qatar":"Group Stage","Scotland":"Group Stage","Iran":"Group Stage","Belgium":"Round of 32","Jordan":"Group Stage","Egypt":"Round of 32","New Zealand":"Group Stage","Switzerland":"Round of 32","Japan":"Round of 32","South Korea":"Group Stage","Spain":"Round of 32","Canada":"Round of 16","Curaçao":"Group Stage","South Africa":"Round of 32","Argentina":"Round of 32","Netherlands":"Round of 32","Colombia":"Round of 32","Senegal":"Round of 32","Cape Verde":"Round of 32","DR Congo":"Round of 32","Germany":"Round of 32","Australia":"Round of 32","Panama":"Group Stage","Saudi Arabia":"Group Stage","England":"Round of 32","Ivory Coast":"Round of 32","Norway":"Round of 16"},"ts":{"Jordan":{"gc":8,"gs":3},"Spain":{"gs":5,"gc":0},"New Zealand":{"gs":4,"gc":10},"Egypt":{"gc":3,"gs":5},"Switzerland":{"gc":3,"gs":7},"Japan":{"gs":7,"gc":3},"South Korea":{"gs":2,"gc":3},"South Africa":{"gs":2,"gc":3},"Argentina":{"gs":8,"gc":1},"Netherlands":{"gs":11,"gc":5},"Cape Verde":{"gc":2,"gs":2},"Senegal":{"gc":6,"gs":8},"Colombia":{"gc":1,"gs":4},"Curaçao":{"gc":9,"gs":1},"Canada":{"gc":3,"gs":9},"Australia":{"gs":2,"gc":2},"Panama":{"gs":0,"gc":4},"Saudi Arabia":{"gc":5,"gs":1},"England":{"gs":6,"gc":2},"Ivory Coast":{"gc":2,"gs":4},"Norway":{"gs":10,"gc":8},"DR Congo":{"gc":3,"gs":4},"Germany":{"gc":5,"gs":11},"Tunisia":{"gs":2,"gc":12},"Uruguay":{"gc":4,"gs":3},"Iraq":{"gs":1,"gc":12},"France":{"gs":13,"gc":2},"Haiti":{"gc":8,"gs":2},"Portugal":{"gc":1,"gs":6},"Bosnia-Herzegovina":{"gs":5,"gc":6},"Croatia":{"gc":5,"gs":5},"Turkey":{"gs":3,"gc":5},"Czechia":{"gs":2,"gc":6},"Paraguay":{"gc":5,"gs":3},"Uzbekistan":{"gc":11,"gs":2},"Mexico":{"gs":8,"gc":0},"Morocco":{"gs":7,"gc":4},"Ghana":{"gc":2,"gs":2},"Ecuador":{"gc":2,"gs":2},"Brazil":{"gs":9,"gc":2},"Scotland":{"gc":4,"gs":1},"Iran":{"gs":3,"gc":3},"Belgium":{"gc":2,"gs":6},"USA":{"gc":4,"gs":8},"Austria":{"gc":6,"gs":6},"Algeria":{"gs":5,"gc":7},"Sweden":{"gc":7,"gs":7},"Qatar":{"gs":2,"gc":10}},"gp":{"South Korea":"3rd","Japan":"2nd","Switzerland":"1st","New Zealand":"4th","Egypt":"2nd","Spain":"1st","Jordan":"4th","Germany":"1st","DR Congo":"3rd","Ivory Coast":"2nd","Norway":"2nd","England":"1st","Saudi Arabia":"4th","Panama":"4th","Australia":"2nd","Canada":"2nd","Curaçao":"4th","Cape Verde":"2nd","Colombia":"1st","Senegal":"3rd","Netherlands":"1st","South Africa":"2nd","Argentina":"1st","Croatia":"2nd","Portugal":"2nd","Bosnia-Herzegovina":"3rd","Haiti":"4th","France":"1st","Iraq":"4th","Uruguay":"3rd","Tunisia":"4th","Qatar":"4th","Algeria":"3rd","Sweden":"3rd","Austria":"2nd","USA":"1st","Belgium":"1st","Iran":"3rd","Scotland":"","Ecuador":"3rd","Brazil":"1st","Ghana":"3rd","Morocco":"2nd","Mexico":"1st","Paraguay":"3rd","Czechia":"4th","Turkey":"4th","Uzbekistan":"4th"},"players":[{"name":"Joana","t2b":"Colombia","t3b":"Canada","t2a":"Germany","t1":"Spain","t3a":"Sweden"},{"t2b":"Colombia","t3b":"DR Congo","t2a":"Germany","name":"Pereira","t3a":"Senegal","t1":"Portugal"},{"t3b":"Sweden","t2a":"Germany","t2b":"Netherlands","name":"Juan José Leiro","t3a":"Senegal","t1":"France"},{"t1":"Portugal","t3a":"Senegal","name":"Sergio","t2b":"Netherlands","t2a":"Mexico","t3b":"Canada"},{"t1":"England","t3a":"Austria","name":"Ugur","t2a":"Germany","t3b":"Sweden","t2b":"Netherlands"},{"t3a":"South Korea","t1":"England","t2b":"Colombia","t2a":"Germany","t3b":"Senegal","name":"Robert"},{"t3a":"Senegal","t1":"Spain","t2b":"Colombia","t2a":"Morocco","t3b":"Paraguay","name":"Juan Carlos"},{"name":"Pedro","t2a":"Germany","t3b":"Egypt","t2b":"Norway","t1":"Spain","t3a":"Sweden"}],"bracket":{"third":{"team2":"","team1":"","winner":""},"r32":[{"team1":"Germany","team2":"Bosnia-Herzegovina","winner":""},{"winner":"","team2":"Paraguay","team1":"France"},{"winner":"","team1":"South Africa","team2":"Canada"},{"team2":"Morocco","team1":"Netherlands","winner":""},{"winner":"","team1":"Portugal","team2":"Croatia"},{"winner":"","team2":"Austria","team1":"Spain"},{"team1":"USA","team2":"Ecuador","winner":""},{"winner":"","team2":"Senegal","team1":"Belgium"},{"team1":"Brazil","team2":"Japan","winner":""},{"team1":"Ivory Coast","team2":"Norway","winner":""},{"winner":"","team2":"Sweden","team1":"Mexico"},{"team2":"Algeria","team1":"England","winner":""},{"winner":"","team1":"Argentina","team2":"Cape Verde"},{"winner":"","team1":"Australia","team2":"Egypt"},{"winner":"","team2":"","team1":"Switzerland"},{"winner":"","team1":"Colombia","team2":"Ghana"}],"r16":[{"team1":"","team2":"","winner":""},{"team2":"","team1":"","winner":""},{"team2":"","team1":"","winner":""},{"team2":"","team1":"","winner":""},{"team2":"","team1":"","winner":""},{"team2":"","team1":"","winner":""},{"team1":"","team2":"","winner":""},{"team1":"","team2":"","winner":""}],"final":{"winner":"","team1":"","team2":""},"qf":[{"team1":"","team2":"","winner":""},{"team1":"","team2":"","winner":""},{"team2":"","team1":"","winner":""},{"winner":"","team2":"","team1":""}],"sf":[{"winner":"","team1":"","team2":""},{"team1":"","team2":"","winner":""}]}};</script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBgohMi-3GmD7lA0qAHRYiLbaLQbYNCCh8",
+  authDomain: "porra-gat.firebaseapp.com",
+  projectId: "porra-gat",
+  storageBucket: "porra-gat.firebasestorage.app",
+  messagingSenderId: "489187684365",
+  appId: "1:489187684365:web:158d7f2b4d0fb373d36544"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+let unsubscribePool = null;
+let isApplyingRemoteUpdate = false;
+</script>
+
+<script>
+const F={"Spain":"🇪🇸","France":"🇫🇷","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Brazil":"🇧🇷","Argentina":"🇦🇷","Portugal":"🇵🇹","Germany":"🇩🇪","Netherlands":"🇳🇱","Norway":"🇳🇴","Belgium":"🇧🇪","Colombia":"🇨🇴","Japan":"🇯🇵","Morocco":"🇲🇦","USA":"🇺🇸","Uruguay":"🇺🇾","Switzerland":"🇨🇭","Mexico":"🇲🇽","Croatia":"🇭🇷","Turkey":"🇹🇷","Ecuador":"🇪🇨","Senegal":"🇸🇳","Sweden":"🇸🇪","Canada":"🇨🇦","Austria":"🇦🇹","Paraguay":"🇵🇾","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Bosnia-Herzegovina":"🇧🇦","Ivory Coast":"🇨🇮","Egypt":"🇪🇬","Czechia":"🇨🇿","Ghana":"🇬🇭","Algeria":"🇩🇿","South Korea":"🇰🇷","Tunisia":"🇹🇳","Australia":"🇦🇺","Iran":"🇮🇷","DR Congo":"🇨🇩","South Africa":"🇿🇦","Saudi Arabia":"🇸🇦","Panama":"🇵🇦","Iraq":"🇮🇶","Uzbekistan":"🇺🇿","Qatar":"🇶🇦","Cape Verde":"🇨🇻","New Zealand":"🇳🇿","Jordan":"🇯🇴","Haiti":"🇭🇹","Curaçao":"🇨🇼"};
+const T1=["Spain","France","England","Brazil","Argentina","Portugal"];
+const T2=["Germany","Netherlands","Norway","Belgium","Colombia","Japan","Morocco","USA","Uruguay","Switzerland","Mexico","Croatia","Turkey","Ecuador"];
+const T3=["Senegal","Sweden","Canada","Austria","Paraguay","Scotland","Bosnia-Herzegovina","Ivory Coast","Egypt","Czechia","Ghana","Algeria","South Korea","Tunisia","Australia","Iran","DR Congo","South Africa","Saudi Arabia","Panama","Iraq","Uzbekistan","Qatar","Cape Verde","New Zealand","Jordan","Haiti","Curaçao"];
+const ALL=[...T1,...T2,...T3];
+const GROUPS={A:["Mexico","South Africa","South Korea","Czechia"],B:["Canada","Bosnia-Herzegovina","Qatar","Switzerland"],C:["Brazil","Morocco","Scotland","Haiti"],D:["USA","Paraguay","Australia","Turkey"],E:["Germany","Ivory Coast","Ecuador","Curaçao"],F:["Netherlands","Japan","Sweden","Tunisia"],G:["Belgium","Egypt","Iran","New Zealand"],H:["Spain","Cape Verde","Saudi Arabia","Uruguay"],I:["France","Senegal","Norway","Iraq"],J:["Argentina","Algeria","Austria","Jordan"],K:["Portugal","Colombia","Uzbekistan","DR Congo"],L:["England","Croatia","Panama","Ghana"]};
+// Puntuación acumulada por fase: si un equipo llega a 4º puesto suma R32 + R16 + QF + 4º = 10+15+20+25.
+const ST={"Group Stage":0,"Round of 32":10,"Round of 16":25,"Quarter-Finals":45,"4th Place":70,"3rd Place":95,"Runner-up":120,"Winner":145};
+const PHASE_POINTS={"Group Stage":0,"Round of 32":10,"Round of 16":15,"Quarter-Finals":20,"4th Place":25,"3rd Place":50,"Runner-up":75,"Winner":100};
+const SK=Object.keys(ST);
+const STAGE_ORDER=["Group Stage","Round of 32","Round of 16","Quarter-Finals","4th Place","3rd Place","Runner-up","Winner"];
+function stageAtLeast(s,m){return STAGE_ORDER.indexOf(s)>=STAGE_ORDER.indexOf(m)}
+
+const MATCH_LABELS={
+  r32:['M74: 1E vs 3º','M77: 1I vs 3º','M73: 2A vs 2B','M75: 1F vs 2C','M83: 2K vs 2L','M84: 1H vs 2J','M81: 1D vs 3º','M82: 1G vs 3º','M76: 1C vs 2F','M78: 2E vs 2I','M79: 1A vs 3º','M80: 1L vs 3º','M86: 1J vs 2H','M88: 2D vs 2G','M85: 1B vs 3º','M87: 1K vs 3º'],
+  r16:['M89','M90','M93','M94','M91','M92','M95','M96'],
+  qf:['M97','M98','M99','M100'],
+  sf:['M101','M102']
+};
+
+const FIFA_R32=[
+  {t1:"1E",t2:"3rd",t2pools:["A","B","C","D","F"]},
+  {t1:"1I",t2:"3rd",t2pools:["C","D","F","G","H"]},
+  {t1:"2A",t2:"2B"},
+  {t1:"1F",t2:"2C"},
+  {t1:"2K",t2:"2L"},
+  {t1:"1H",t2:"2J"},
+  {t1:"1D",t2:"3rd",t2pools:["B","E","F","I","J"]},
+  {t1:"1G",t2:"3rd",t2pools:["A","E","H","I","J"]},
+  {t1:"1C",t2:"2F"},
+  {t1:"2E",t2:"2I"},
+  {t1:"1A",t2:"3rd",t2pools:["C","E","F","H","I"]},
+  {t1:"1L",t2:"3rd",t2pools:["E","H","I","J","K"]},
+  {t1:"1J",t2:"2H"},
+  {t1:"2D",t2:"2G"},
+  {t1:"1B",t2:"3rd",t2pools:["E","F","G","I","J"]},
+  {t1:"1K",t2:"3rd",t2pools:["D","E","I","J","L"]}
+];
+
+// Ronda de 32 fija/manual según la imagen de partida. Esta ronda NO se recalcula desde Admin.
+const DEFAULT_R32=[
+  {team1:"Germany",team2:"Paraguay",winner:"Paraguay"},
+  {team1:"France",team2:"Sweden",winner:"France"},
+  {team1:"South Africa",team2:"Canada",winner:"Canada"},
+  {team1:"Netherlands",team2:"Morocco",winner:"Morocco"},
+  {team1:"Portugal",team2:"Croatia",winner:""},
+  {team1:"Spain",team2:"Austria",winner:""},
+  {team1:"USA",team2:"Bosnia-Herzegovina",winner:""},
+  {team1:"Belgium",team2:"Senegal",winner:""},
+  {team1:"Brazil",team2:"Japan",winner:"Brazil"},
+  {team1:"Ivory Coast",team2:"Norway",winner:"Norway"},
+  {team1:"Mexico",team2:"Ecuador",winner:"Mexico"},
+  {team1:"England",team2:"DR Congo",winner:""},
+  {team1:"Argentina",team2:"Cape Verde",winner:""},
+  {team1:"Australia",team2:"Egypt",winner:""},
+  {team1:"Switzerland",team2:"Algeria",winner:""},
+  {team1:"Colombia",team2:"Ghana",winner:""}
+];
+const BRACKET_VERSION="manual_r32_v2";
+function defaultR32(){return DEFAULT_R32.map(m=>({...m}));}
+function normalizeBracket(){
+  if(!bracket) bracket=emptyBracket();
+  if(!Array.isArray(bracket.r32) || bracket.r32.length!==16 || bracket.version!==BRACKET_VERSION){
+    bracket.r32=defaultR32();
+    bracket.version=BRACKET_VERSION;
+  }
+  ['r16','qf','sf'].forEach(k=>{const len={r16:8,qf:4,sf:2}[k]; if(!Array.isArray(bracket[k])||bracket[k].length!==len) bracket[k]=emptyBracket()[k];});
+  if(!bracket.third) bracket.third={team1:'',team2:'',winner:''};
+  if(!bracket.final) bracket.final={team1:'',team2:'',winner:''};
+}
+function syncBracketFromAdmin(){
+  normalizeBracket();
+  bracket.r16=Array.from({length:8},()=>({team1:'',team2:'',winner:''}));
+  bracket.qf=Array.from({length:4},()=>({team1:'',team2:'',winner:''}));
+  bracket.sf=Array.from({length:2},()=>({team1:'',team2:'',winner:''}));
+  bracket.third={team1:'',team2:'',winner:''};
+  bracket.final={team1:'',team2:'',winner:''};
+  const r16T=ALL.filter(t=>stageAtLeast(tp[t],'Round of 16'));
+  const qfT=ALL.filter(t=>stageAtLeast(tp[t],'Quarter-Finals'));
+  const sfT=ALL.filter(t=>['4th Place','3rd Place','Runner-up','Winner'].includes(tp[t]));
+  const finT=ALL.filter(t=>tp[t]==='Runner-up'||tp[t]==='Winner');
+  const champ=ALL.find(t=>tp[t]==='Winner')||'';
+  const third=ALL.find(t=>tp[t]==='3rd Place')||'';
+  for(let i=0;i<16;i++){
+    const m=bracket.r32[i];
+    const adminWinner=[m.team1,m.team2].find(t=>t&&r16T.includes(t));
+    if(adminWinner) m.winner=adminWinner;
+    if(m.winner){const ni=Math.floor(i/2);bracket.r16[ni][i%2===0?'team1':'team2']=m.winner;}
+  }
+  for(let i=0;i<8;i++){const m=bracket.r16[i];const w=[m.team1,m.team2].find(t=>t&&qfT.includes(t));if(w)m.winner=w;if(m.winner){const ni=Math.floor(i/2);bracket.qf[ni][i%2===0?'team1':'team2']=m.winner;}}
+  for(let i=0;i<4;i++){const m=bracket.qf[i];const w=[m.team1,m.team2].find(t=>t&&sfT.includes(t));if(w)m.winner=w;if(m.winner){const ni=Math.floor(i/2);bracket.sf[ni][i%2===0?'team1':'team2']=m.winner;}}
+  for(let i=0;i<2;i++){const m=bracket.sf[i];const w=[m.team1,m.team2].find(t=>t&&finT.includes(t));if(w)m.winner=w;if(m.winner)bracket.final[i===0?'team1':'team2']=m.winner;}
+  if(champ) bracket.final.winner=champ;
+  for(let i=0;i<2;i++){const m=bracket.sf[i];if(m.winner&&m.team1&&m.team2){const loser=m.winner===m.team1?m.team2:m.team1;bracket.third[i===0?'team1':'team2']=loser;}}
+  if(third) bracket.third.winner=third;
+}
+
+let tp={},ts={},gp={},players=[],bracket=null;
+
+function emptyBracket(){
+  return{version:BRACKET_VERSION,r32:defaultR32(),r16:Array.from({length:8},()=>({team1:'',team2:'',winner:''})),qf:Array.from({length:4},()=>({team1:'',team2:'',winner:''})),sf:Array.from({length:2},()=>({team1:'',team2:'',winner:''})),third:{team1:'',team2:'',winner:''},final:{team1:'',team2:'',winner:''}};
+}
+
+function init(){
+  function applyData(d){
+    tp=d.tp||{};
+    ts=d.ts||{};
+    gp=d.gp||{};
+    players=d.players||[];
+    bracket=d.bracket||emptyBracket();
+    normalizeBracket();
+
+    ALL.forEach(t=>{
+      if(!tp[t])tp[t]="Group Stage";
+      if(!ts[t])ts[t]={gs:0,gc:0};
+      if(!gp[t])gp[t]="";
+    });
+    syncBracketFromAdmin();
+
+    buildSelects();
+    buildAdmin();
+    buildTierPreviews();
+    render();
+    renderBracket();
+  }
+
+  // Fallback inicial mientras Firebase carga o si el documento aún no existe.
+  applyData(typeof PRELOAD_DATA!=='undefined' && PRELOAD_DATA ? PRELOAD_DATA : {bracket:emptyBracket()});
+
+  if(unsubscribePool){unsubscribePool();}
+
+  unsubscribePool=db.collection("pool").doc("data").onSnapshot((doc)=>{
+    if(doc.exists){
+      isApplyingRemoteUpdate=true;
+      applyData(doc.data());
+      isApplyingRemoteUpdate=false;
+      console.log("🔄 Datos sincronizados desde Firebase");
+    }else{
+      // Si Firebase está vacío, sube el estado precargado del HTML como primera versión.
+      save();
+    }
+  },(error)=>{
+    console.error("❌ Error leyendo Firebase:",error);
+    alert("❌ No se pudieron cargar los datos desde Firebase. Revisa las reglas de Firestore.");
+  });
+}
+
+function save(){
+  if(isApplyingRemoteUpdate)return;
+  const data={
+    tp,ts,gp,players,bracket,
+    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+  };
+  db.collection("pool").doc("data").set(data)
+    .then(()=>console.log("✅ Guardado en Firebase"))
+    .catch(err=>{
+      console.error("❌ Error guardando en Firebase:",err);
+      alert("❌ Error guardando datos en Firebase. Revisa las reglas de Firestore.");
+    });
+}
+
+function showTab(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+  if(id==='leaderboard')render();
+  if(id==='bracket')renderBracket();
+}
+
+function buildSelects(){
+  const mk=(arr)=>'<option value="">-- Selecciona --</option>'+arr.map(t=>`<option value="${t}">${F[t]||'🏳️'} ${t}</option>`).join('');
+  document.getElementById('pT1').innerHTML=mk(T1);
+  ['pT2a','pT2b'].forEach(id=>document.getElementById(id).innerHTML=mk(T2));
+  ['pT3a','pT3b'].forEach(id=>document.getElementById(id).innerHTML=mk(T3));
+}
+
+function buildAdmin(){
+  const g=document.getElementById('groupsGrid');let h='';
+  const gpOpts=["","1st","2nd","3rd","4th"];
+  const gpLabels={"":"—","1st":"1º","2nd":"2º","3rd":"3º","4th":"4º"};
+  Object.entries(GROUPS).forEach(([gn,teams])=>{
+    h+=`<div class="group-card"><h3>🏟️ Grupo ${gn}</h3>`;
+    teams.forEach(t=>{
+      const st=ts[t]||{gs:0,gc:0};
+      const opts=SK.map(s=>`<option value="${s}" ${tp[t]===s?'selected':''}>${s.replace('Quarter-Finals','QF').replace('Round of ','R').replace('Group Stage','GS')}</option>`).join('');
+      const gpSel=gpOpts.map(v=>`<option value="${v}" ${gp[t]===v?'selected':''}>${gpLabels[v]}</option>`).join('');
+      h+=`<div class="team-row">
+        <span class="team-flag">${F[t]||'🏳️'}</span>
+        <span class="team-name">${t}</span>
+        <select style="width:52px;min-width:52px;font-weight:700;color:var(--blue)" onchange="gp['${t}']=this.value" title="Posición en grupo">${gpSel}</select>
+        <select onchange="tp['${t}']=this.value">${opts}</select>
+        <div><span class="stat-label">GF</span><input type="number" min="0" value="${st.gs}" onchange="ts['${t}'].gs=+this.value"></div>
+        <div><span class="stat-label">GC</span><input type="number" min="0" value="${st.gc}" onchange="ts['${t}'].gc=+this.value"></div>
+      </div>`;
+    });
+    h+='</div>';
+  });
+  g.innerHTML=h;
+}
+
+function saveAdmin(){syncBracketFromAdmin();save();buildAdmin();render();renderBracket();alert('✅ Progreso guardado correctamente')}
+
+function buildTierPreviews(){
+  document.getElementById('tierPreview1').innerHTML=T1.map(t=>`<span class="badge badge-t1">${F[t]} ${t}</span>`).join('');
+  document.getElementById('tierPreview2').innerHTML=T2.map(t=>`<span class="badge badge-t2">${F[t]} ${t}</span>`).join('');
+  document.getElementById('tierPreview3').innerHTML=T3.map(t=>`<span class="badge badge-t3">${F[t]} ${t}</span>`).join('');
+}
+
+function addPlayer(){
+  const n=document.getElementById('pName').value.trim();
+  const t1=document.getElementById('pT1').value;
+  const t2a=document.getElementById('pT2a').value,t2b=document.getElementById('pT2b').value;
+  const t3a=document.getElementById('pT3a').value,t3b=document.getElementById('pT3b').value;
+  const err=document.getElementById('regErr');
+  if(!n){err.textContent='⚠️ Introduce un nombre';return}
+  if(!t1||!t2a||!t2b||!t3a||!t3b){err.textContent='⚠️ Selecciona todos los equipos';return}
+  if(t2a===t2b){err.textContent='⚠️ No repitas equipo en Tier 2';return}
+  if(t3a===t3b){err.textContent='⚠️ No repitas equipo en Tier 3';return}
+  err.textContent='';
+  players.push({name:n,t1,t2a,t2b,t3a,t3b});
+  save();render();
+  document.getElementById('pName').value='';
+  ['pT1','pT2a','pT2b','pT3a','pT3b'].forEach(id=>document.getElementById(id).selectedIndex=0);
+}
+
+function removePlayer(i){if(confirm('¿Eliminar a '+players[i].name+'?')){players.splice(i,1);save();render()}}
+
+function getBonus(){
+  /*
+   * BONUS PERFECTO:
+   * - Más goles marcados (+9): equipos válidos con el máximo GF.
+   * - Menos goles encajados (+8): TODOS los equipos válidos con el mínimo GC.
+   * - Permite empates.
+   * - No cuenta equipos 0-0 que aún no tengan datos reales/posición/fase.
+   *
+   * Un equipo se considera válido si tiene al menos una de estas condiciones:
+   *   1) posición de grupo asignada (gp), aunque sea GF=0 y GC=0;
+   *   2) fase diferente de Group Stage;
+   *   3) GF > 0 o GC > 0.
+   * Así España/Escocia/México con GC=0 cuentan si están cargados en Admin,
+   * pero Portugal/Colombia/etc. sin jugar y con 0-0 no contaminan el mínimo.
+   */
+  const valid = ALL.filter(t => {
+    const s = ts[t] || {gs:0, gc:0};
+    return (gp[t] && gp[t] !== '') || tp[t] !== 'Group Stage' || Number(s.gs) > 0 || Number(s.gc) > 0;
+  });
+
+  if(!valid.length) return {gs:[], gc:[]};
+
+  const maxGF = Math.max(...valid.map(t => Number((ts[t] || {gs:0}).gs) || 0));
+  const minGC = Math.min(...valid.map(t => Number((ts[t] || {gc:0}).gc) || 0));
+
+  return {
+    gs: maxGF > 0 ? valid.filter(t => (Number((ts[t] || {gs:0}).gs) || 0) === maxGF) : [],
+    gc: valid.filter(t => (Number((ts[t] || {gc:0}).gc) || 0) === minGC)
+  };
+}
+function calcP(p){
+  const teams=[p.t1,p.t2a,p.t2b,p.t3a,p.t3b];
+  const t3teams=[p.t3a,p.t3b];
+  const bon=getBonus();
+  let total=0,det=[];
+  teams.forEach(t=>{
+    let pts=ST[tp[t]]||0,bp=0,bl=[];
+    if(bon.gs.includes(t)){bp+=9;bl.push('+9⚽')}
+    if(bon.gc.includes(t)){bp+=8;bl.push('+8🛡️')}
+    if(t3teams.includes(t)&&stageAtLeast(tp[t],'Quarter-Finals')){bp+=7;bl.push('+7🎯')}
+    if(gp[t]==='1st'){bp+=4;bl.push('+4🥇')}
+    if(gp[t]==='2nd'){bp+=2;bl.push('+2🥈')}
+    total+=pts+bp;
+    det.push({t,pts,bp,bl});
+  });
+  return{total,det};
+}
+
+function tierCls(t){return T1.includes(t)?'badge-t1':T2.includes(t)?'badge-t2':'badge-t3'}
+
+function render(){
+  const body=document.getElementById('lbBody');const el=document.getElementById('emptyLB');
+  if(!players.length){body.innerHTML='';el.style.display='block'}
+  else{
+    el.style.display='none';
+    let rows=players.map((p,i)=>({...p,i,...calcP(p)}));
+    rows.sort((a,b)=>b.total-a.total);
+    body.innerHTML=rows.map((r,ri)=>{
+      const rk=ri+1;
+      const med=rk===1?'🥇':rk===2?'🥈':rk===3?'🥉':'';
+      const rc=rk===1?'lb-top1':rk===2?'lb-top2':rk===3?'lb-top3':'';
+      const badges=r.det.map(d=>`<span class="badge ${tierCls(d.t)}">${F[d.t]} ${d.t}</span>`).join('');
+      const detail=r.det.map(d=>{let s=`<span class="pts-chip">${d.pts}</span>`;d.bl.forEach(b=>s+=`<span class="pts-chip bonus">${b}</span>`);return s;}).join(' ');
+      const tb=r.det.reduce((a,d)=>a+d.bp,0);
+      return `<tr class="${rc}"><td>${med?`<span class="medal">${med}</span>`:`<span class="rank-num">${rk}</span>`}</td><td class="player-name">${r.name}</td><td>${badges}</td><td><div class="pts-mini">${detail}</div></td><td class="bonus-pts">${tb>0?'+'+tb:'—'}</td><td class="total-pts">${r.total}</td><td><button class="btn-red" onclick="removePlayer(${r.i})">✕</button></td></tr>`;
+    }).join('');
+  }
+  const pc=document.getElementById('playerCards');const ep=document.getElementById('emptyPlayers');
+  if(!players.length){pc.innerHTML='';ep.style.display='block'}
+  else{
+    ep.style.display='none';
+    pc.innerHTML=players.map((p,i)=>{
+      const teams=[p.t1,p.t2a,p.t2b,p.t3a,p.t3b];
+      return `<div class="p-card"><div class="p-card-header"><span class="p-card-name">${p.name}</span><button class="btn-red" onclick="removePlayer(${i})">✕</button></div><div class="p-card-teams">${teams.map(t=>`<span class="badge ${tierCls(t)}">${F[t]} ${t}</span>`).join('')}</div></div>`;
+    }).join('');
+  }
+}
+
+// ===== BRACKET =====
+function renderBracket(){
+  if(!bracket)bracket=emptyBracket();
+  normalizeBracket();
+  const c=document.getElementById('bracketContainer');let html='';
+  html+=buildRound('r32',0,8,'Dieciseisavos','left');
+  html+=buildRound('r16',0,4,'Octavos','left');
+  html+=buildRound('qf',0,2,'Cuartos','left');
+  html+=buildRound('sf',0,1,'Semifinales','left');
+  html+=`<div class="bracket-center">`;
+  const fw=bracket.final.winner;
+  html+=`<div class="winner-display"><div class="trophy">🏆</div><div class="w-name">${fw?(F[fw]||'🏳️')+' '+fw:'¿Campeón?'}</div></div>`;
+  html+=`<div class="final-card"><h3>⚽ FINAL</h3>`;
+  html+=mSlot('final',-1,bracket.final.team1,bracket.final.winner);
+  html+=mSlot('final',-1,bracket.final.team2,bracket.final.winner);
+  html+=`</div>`;
+  html+=`<div class="third-card"><h4>🥉 3er Puesto</h4>`;
+  html+=mSlot('third',-1,bracket.third.team1,bracket.third.winner);
+  html+=mSlot('third',-1,bracket.third.team2,bracket.third.winner);
+  html+=`</div></div>`;
+  html+=buildRound('sf',1,1,'Semifinales','right');
+  html+=buildRound('qf',2,2,'Cuartos','right');
+  html+=buildRound('r16',4,4,'Octavos','right');
+  html+=buildRound('r32',8,8,'Dieciseisavos','right');
+  c.innerHTML=html;
+}
+
+function buildRound(rk,si,cnt,label,side){
+  let h=`<div class="bracket-round ${rk} ${side}">`;
+  h+=`<div style="text-align:center;margin-bottom:6px"><span class="round-label">${label}</span></div>`;
+  for(let i=si;i<si+cnt;i++){
+    const m=bracket[rk][i];
+    const lbl=(MATCH_LABELS[rk]&&MATCH_LABELS[rk][i])?MATCH_LABELS[rk][i]:'';
+    h+=`<div>`;
+    if(lbl)h+=`<span class="match-label">${lbl}</span>`;
+    h+=`<div class="match-card">`;
+    h+=mSlot(rk,i,m.team1,m.winner);
+    h+=mSlot(rk,i,m.team2,m.winner);
+    h+=`</div></div>`;
+  }
+  h+=`</div>`;return h;
+}
+
+function mSlot(rk,mi,team,winner){
+  if(!team)return`<div class="match-slot empty-slot">— TBD —</div>`;
+  const w=team===winner&&winner!=='';
+  return`<div class="match-slot ${w?'winner':''}" onclick="selWin('${rk}',${mi},'${team.replace(/'/g,"\\'")}')">`
+    +`<span class="slot-flag">${F[team]||'🏳️'}</span> ${team}</div>`;
+}
+
+function selWin(rk,mi,team){
+  if(rk==='final'){bracket.final.winner=bracket.final.winner===team?'':team;}
+  else if(rk==='third'){bracket.third.winner=bracket.third.winner===team?'':team;}
+  else{
+    const m=bracket[rk][mi];
+    if(m.winner===team){m.winner='';clearDown(rk,mi);}
+    else{m.winner=team;advance(rk,mi,team);}
+  }
+  save();renderBracket();
+}
+
+function advance(rk,mi,team){
+  const nr={r32:'r16',r16:'qf',qf:'sf'}[rk];
+  if(!nr){if(rk==='sf'){bracket.final[mi===0?'team1':'team2']=team;}return;}
+  const ni=Math.floor(mi/2),sl=mi%2===0?'team1':'team2';
+  if(bracket[nr][ni])bracket[nr][ni][sl]=team;
+}
+
+function clearDown(rk,mi){
+  const nr={r32:'r16',r16:'qf',qf:'sf'}[rk];
+  if(!nr){if(rk==='sf'){const sl=mi===0?'team1':'team2';const ot=bracket.final[sl];bracket.final[sl]='';if(bracket.final.winner===ot)bracket.final.winner='';}return;}
+  const ni=Math.floor(mi/2),sl=mi%2===0?'team1':'team2';
+  if(bracket[nr][ni]){const ot=bracket[nr][ni][sl];bracket[nr][ni][sl]='';if(bracket[nr][ni].winner===ot){bracket[nr][ni].winner='';clearDown(nr,ni);}}
+}
+
+// ===== FIFA REAL BRACKET =====
+function getTeamByPos(gl,pos){return(GROUPS[gl]||[]).find(t=>gp[t]===pos)||'';}
+
+function autoFillBracket(){
+  syncBracketFromAdmin();
+  save();
+  renderBracket();
+  alert('✅ Cuadro actualizado desde Admin manteniendo manual la ronda de 32');
+}
+
+function clearBracket(){if(confirm('¿Reiniciar el cuadro al punto de partida manual de R32?')){bracket=emptyBracket();syncBracketFromAdmin();save();renderBracket();}}
+
+function exportHTML(){
+  const data={tp,ts,gp,players,bracket};
+  const ds=JSON.stringify(data);
+  let fh=document.documentElement.outerHTML;
+  fh=fh.replace(/<script>var PRELOAD_DATA=.*?<\/script>/g,'');
+  fh=fh.replace('<script>','<scr'+'ipt>var PRELOAD_DATA='+ds+';<\/scr'+'ipt>\n<script>');
+  fh='<!DOCTYPE html>\n<html lang="es">\n'+fh.replace(/<html[^>]*>/,'');
+  const blob=new Blob([fh],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='FIFA_World_Cup_2026_Pool.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+try{if(typeof PRELOAD_DATA==='undefined')var PRELOAD_DATA=null;}catch(e){var PRELOAD_DATA=null;}
+init();
+</script>
+<deepl-input-controller translate="no"></deepl-input-controller></body></html>
